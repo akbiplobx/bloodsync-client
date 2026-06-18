@@ -158,25 +158,26 @@ export default function SignUpPage() {
         </TextField>
 
         {/* Role Base Select Field */}
-        <Select isRequired name="role" placeholder="Select one">
-          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Signup As</Label>
-          <Select.Trigger className="h-9 border rounded-lg bg-transparent text-sm">
-            <Select.Value />
-            <Select.Indicator />
-          </Select.Trigger>
-          <Select.Popover>
-            <ListBox>
-              <ListBox.Item id="donor" textValue="donor" className="text-sm">
-                Donor
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-              <ListBox.Item id="recipient" textValue="recipient" className="text-sm">
-                Recipient
-                <ListBox.ItemIndicator />
-              </ListBox.Item>
-            </ListBox>
-          </Select.Popover>
-        </Select>
+<Select isRequired name="role" placeholder="Select one">
+  <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Signup As</Label>
+  <Select.Trigger className="h-9 border rounded-lg bg-transparent text-sm">
+    <Select.Value />
+    <Select.Indicator />
+  </Select.Trigger>
+  <Select.Popover>
+    <ListBox>
+      {/* Donor Option */}
+      <ListBox.Item id="donor" textValue="donor" className="text-sm">
+        Donor 🩸
+      </ListBox.Item>
+      
+      {/* Volunteer Option */}
+      <ListBox.Item id="volunteer" textValue="volunteer" className="text-sm">
+        Volunteer 🤝
+      </ListBox.Item>
+    </ListBox>
+  </Select.Popover>
+</Select>
 
         {/* Form Submit & Reset Buttons */}
         <div className="flex gap-2 mt-2">

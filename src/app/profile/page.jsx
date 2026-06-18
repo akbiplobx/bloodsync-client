@@ -1,34 +1,54 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { UpdateUserModal } from "@/components/UpdateUserModal";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Card } from "@heroui/react";
-import { redirect } from "next/navigation";
 
 const ProfilePage = () => {
+  const router = useRouter();
   const userData = authClient.useSession();
   const user = userData.data?.user;
+  const isLoading = userData.isPending; // সেশন লোড হচ্ছে কিনা চেক করার জন্য
 
-  if(!user) {
-    redirect('/signin')
+  // ক্লায়েন্ট সাইড রিডাইরেকশন হ্যান্ডেল করার জন্য useEffect
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/login"); // আপনার লগইন রাউটটি /signin হলে এখানে '/signin' দিন
+    }
+  }, [user, isLoading, router]);
+
+  // সেশন চেক করার সময় ব্ল্যাঙ্ক বা কোনো লোডার দেখানো ভালো
+  if (isLoading || !user) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-slate-950 text-white">
+        <p className="text-sm font-bold tracking-wider animate-pulse">Loading profile...</p>
+      </div>
+    );
   }
 
   return (
-    <div>
-      <Card className="max-w-96 mx-auto flex flex-col items-center border mt-5">
-        <Avatar className="h-20 w-20">
-          <Avatar.Image
-            alt="John Doe"
-            src={user?.image}
-            referrerPolicy="no-referrer"
-          />
-          <Avatar.Fallback>{user?.name.charAt(0)}</Avatar.Fallback>
-        </Avatar>
+    <div className="min-h-screen bg-slate-950 text-white p-6 flex items-center justify-center">
+      <Card className="max-w-md w-full mx-auto flex flex-col items-center gap-4 p-8 border border-slate-800 bg-slate-900 shadow-2xl rounded-3xl">
+        
+        {/* ✅ HeroUI এর সঠিক Avatar ব্যবহার পদ্ধতি */}
+        <Avatar
+  src={user?.image || "/default-avatar.png"}
+  name={user?.name}
+  
+  className="w-24 h-24 text-xl font-black border-4 border-rose-500 p-0.5 object-cover rounded-full"
+  color="danger"
+/>
 
-        <h2 className="text-xl font-bold">{user?.name}</h2>
-        <p className="text-muted">{user?.email}</p>
+        <div className="text-center space-y-1">
+          <h2 className="text-2xl font-black tracking-tight text-slate-100">{user?.name}</h2>
+          <p className="text-sm font-medium text-slate-400">{user?.email}</p>
+        </div>
 
-        <UpdateUserModal/>
+        <div className="w-full pt-2 border-t border-slate-800 flex justify-center">
+          <UpdateUserModal />
+        </div>
       </Card>
     </div>
   );
