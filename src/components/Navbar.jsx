@@ -68,7 +68,7 @@ const Navbar = () => {
 
         {/* Theme Switch & Auth Section */}
         <div className="hidden md:flex items-center gap-4">
-          {/* <ThemeSwitch /> */}
+          <ThemeSwitch />
 
           {session ? (
             <div className="relative">
