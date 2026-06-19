@@ -218,7 +218,7 @@ const AllBloodRequests = () => {
                       
                       {/* Operational Primary CTA Grid */}
                       <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex gap-2" onClick={(e) => e.stopPropagation()}>
-                        <Link href={`/blood-request/${requestId}`} className="flex-1">
+                        <Link href={`/donation-details/${requestId}`} className="flex-1">
                           <button className="w-full border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-xs cursor-pointer">
                             View Details
                           </button>
@@ -226,7 +226,7 @@ const AllBloodRequests = () => {
                         
                         <button 
                           disabled={isManaged} 
-                          onClick={() => router.push(`/blood-request/${requestId}`)} 
+                          onClick={() => router.push(`/donation-details/${requestId}`)} 
                           className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-bold transition-all text-white cursor-pointer ${
                             isManaged 
                               ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed shadow-none' 
