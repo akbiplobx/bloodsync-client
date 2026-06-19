@@ -1,250 +1,399 @@
 "use client";
 import { authClient } from "@/lib/auth-client";
-import { Check } from "@gravity-ui/icons";
-import {
-  Button,
-  Card,
-  FieldError,
-  Form,
-  Input,
-  Label,
-  TextField,
-  Select,
-  ListBox,
-} from "@heroui/react";
+import { Button, Card } from "@heroui/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; 
-import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import districts from "@/data/districts.json";
+import upazilas from "@/data/upazilas.json";
 
-export default function SignUpPage() {
+const BLOOD_GROUPS = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
+const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY
+
+export default function RegisterPage() {
   const router = useRouter();
-  const [passwordValue, setPasswordValue] = useState(""); 
-  const [isLoading, setIsLoading] = useState(false);
+  const fileInputRef = useRef(null);
+
   const [mounted, setMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedUpazila, setSelectedUpazila] = useState("");
+  const [selectedBloodGroup, setSelectedBloodGroup] = useState("");
+  const [passwordValue, setPasswordValue] = useState("");
+
+  const [errors, setErrors] = useState({});
+  const [submitError, setSubmitError] = useState("");
+
+  // Filtered upazilas based on selected district
+  const filteredUpazilas = selectedDistrict
+    ? upazilas.filter((u) => u.district_id === selectedDistrict)
+    : [];
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null; 
-  }
+  if (!mounted) return null;
+
+  // Avatar file change handler
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setAvatarFile(file);
+    const reader = new FileReader();
+    reader.onloadend = () => setAvatarPreview(reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  // Upload avatar to ImgBB
+  const uploadToImgBB = async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
+    const res = await fetch(
+      `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+      { method: "POST", body: formData }
+    );
+    const data = await res.json();
+    if (data.success) return data.data.url;
+    throw new Error("Image upload failed");
+  };
+
+  // Validate fields
+  const validate = (fields) => {
+    const errs = {};
+    if (!fields.name?.trim()) errs.name = "Name is required";
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(fields.email))
+      errs.email = "Valid email required";
+    if (!fields.phone?.trim()) errs.phone = "Phone number is required";
+    if (!selectedBloodGroup) errs.bloodGroup = "Select a blood group";
+    if (!selectedDistrict) errs.district = "Select a district";
+    if (!selectedUpazila) errs.upazila = "Select an upazila";
+    if (fields.password.length < 8)
+      errs.password = "Minimum 8 characters required";
+    else if (!/[A-Z]/.test(fields.password))
+      errs.password = "Must contain an uppercase letter";
+    else if (!/[0-9]/.test(fields.password))
+      errs.password = "Must contain a number";
+    if (fields.confirmPassword !== fields.password)
+      errs.confirmPassword = "Passwords do not match";
+    return errs;
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setSubmitError("");
 
     const formData = new FormData(e.currentTarget);
-    const name = formData.get("name");
-    const image = formData.get("image") || ""; 
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const confirmPassword = formData.get("confirmPassword");
-    const role = formData.get("role"); // Role ডাটা সংগ্রহ করা হলো
+    const fields = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      phone: formData.get("phone"),
+      password: formData.get("password"),
+      confirmPassword: formData.get("confirmPassword"),
+    };
 
-    if (password !== confirmPassword) {
-      return;
-    }
+    const errs = validate(fields);
+    setErrors(errs);
+    if (Object.keys(errs).length > 0) return;
 
-    // authClient-এ role সহ ডাটা পাঠানো হচ্ছে
-    const { data, error } = await authClient.signUp.email({
-      name,
-      email,
-      password,
-      image,
-      role, 
-    });
-
-    console.log({ data, error });
-
-    if (!error) {
-      router.push('/');
-    }
-  };
-
-  const handleGoogleLogin = async () => {
     try {
       setIsLoading(true);
-      await authClient.signIn.social({
-        provider: "google",
-        callbackURL: "/", 
+
+      // Avatar upload
+      let imageUrl = "";
+      if (avatarFile) {
+        setUploadingAvatar(true);
+        imageUrl = await uploadToImgBB(avatarFile);
+        setUploadingAvatar(false);
+      }
+
+      const districtObj = districts.find((d) => d.id === selectedDistrict);
+      const upazilaObj = upazilas.find((u) => u.id === selectedUpazila);
+
+      const { data, error } = await authClient.signUp.email({
+        name: fields.name,
+        email: fields.email,
+        password: fields.password,
+        image: imageUrl,
+        // Extra fields — better_auth এ additionalFields দিয়ে handle করতে হবে
+        phone: fields.phone,
+        bloodGroup: selectedBloodGroup,
+        district: districtObj?.name || "",
+        upazila: upazilaObj?.name || "",
       });
-    } catch (error) {
-      console.error("Google login failed:", error);
+
+      if (error) {
+        setSubmitError(error.message || "Registration failed. Try again.");
+        return;
+      }
+
+      router.push("/");
+    } catch (err) {
+      setSubmitError("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
+      setUploadingAvatar(false);
     }
   };
 
   return (
-    <Card className="border mx-auto w-full max-w-sm py-6 px-5 mt-5 shadow-lg rounded-2xl bg-white dark:bg-slate-900">
-      <h1 className="text-center text-xl font-bold text-slate-800 dark:text-slate-100 mb-1">Sign Up</h1>
+    <div className="min-h-screen bg-gradient-to-br from-rose-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-6 px-4">
+      {/* Page Header */}
+      <div className="text-center mb-5">
+        <h1 className="text-2xl font-extrabold text-rose-600">
+          Join the Lifesaving Community
+        </h1>
+        <p className="text-slate-500 dark:text-slate-400 mt-0.5 text-xs">
+          Create an account to become a donor and save lives
+        </p>
+      </div>
 
-      <Form className="flex w-full flex-col gap-3" onSubmit={onSubmit}>
-        
-        {/* Name Input */}
-        <TextField isRequired name="name" type="text">
-          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Name</Label>
-          <Input placeholder="Enter your name" className="max-h-9" />
-          <FieldError className="text-xs" />
-        </TextField>
+      <Card className="mx-auto w-full max-w-2xl py-5 px-6 shadow-xl rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
 
-        {/* Image URL Input */}
-        <TextField name="image" type="text">
-          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Image URL (Optional)</Label>
-          <Input placeholder="Image URL (Optional)" className="max-h-9" />
-          <FieldError className="text-xs" />
-        </TextField>
+        <form onSubmit={onSubmit} className="space-y-3">
+        {/* ============== */}
+        {/* Avatar Upload Section */}
+<div className="flex justify-center mb-6">
+  <div className="relative group">
+    <div 
+      className="w-24 h-24 rounded-full border-4 border-white dark:border-slate-800 shadow-lg overflow-hidden bg-slate-100 dark:bg-slate-800 cursor-pointer flex items-center justify-center"
+      onClick={() => fileInputRef.current.click()}
+    >
+      {avatarPreview ? (
+        <img src={avatarPreview} alt="Avatar" className="w-full h-full object-cover" />
+      ) : (
+        <span className="text-slate-400 text-sm">Upload</span>
+      )}
+    </div>
+    <input
+      type="file"
+      ref={fileInputRef}
+      onChange={handleAvatarChange}
+      className="hidden"
+      accept="image/*"
+    />
+    {uploadingAvatar && (
+      <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full text-white text-xs">
+        Uploading...
+      </div>
+    )}
+  </div>
+</div>
+        {/* ========================= */}
 
-        {/* Email Input */}
-        <TextField
-          isRequired
-          name="email"
-          type="email"
-          validate={(value) => {
-            if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-              return "Please enter a valid email address";
-            }
-            return null;
-          }}
-        >
-          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Email</Label>
-          <Input placeholder="john@example.com" className="max-h-9" />
-          <FieldError className="text-xs" />
-        </TextField>
 
-        {/* Password Input */}
-        <TextField
-          isRequired
-          minLength={8}
-          name="password"
-          type="password"
-          onChange={(value) => setPasswordValue(value)} 
-          validate={(value) => {
-            if (value.length < 8) {
-              return "Password must be at least 8 characters";
-            }
-            if (!/[A-Z]/.test(value)) {
-              return "Password must contain at least one uppercase letter";
-            }
-            if (!/[0-9]/.test(value)) {
-              return "Password must contain at least one number";
-            }
-            return null;
-          }}
-        >
-          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Password</Label>
-          <Input placeholder="Enter your password" className="max-h-9" />
-          <p className="text-[11px] text-slate-500 mt-0.5 leading-tight">
-            Must be 8+ chars with 1 uppercase & 1 number
-          </p>
-          <FieldError className="text-xs" />
-        </TextField>
 
-        {/* Confirm Password Input */}
-        <TextField
-          isRequired
-          name="confirmPassword"
-          type="password"
-          validate={(value) => {
-            if (value !== passwordValue) {
-              return "Passwords do not match!"; 
-            }
-            return null;
-          }}
-        >
-          <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Confirm Password</Label>
-          <Input placeholder="Retype your password" className="max-h-9" />
-          <FieldError className="text-xs" />
-        </TextField>
-
-        {/* Role Base Select Field */}
-<Select isRequired name="role" placeholder="Select one">
-  <Label className="text-sm font-semibold text-slate-700 dark:text-slate-300">Signup As</Label>
-  <Select.Trigger className="h-9 border rounded-lg bg-transparent text-sm">
-    <Select.Value />
-    <Select.Indicator />
-  </Select.Trigger>
-  <Select.Popover>
-    <ListBox>
-      {/* Donor Option */}
-      <ListBox.Item id="donor" textValue="donor" className="text-sm">
-        Donor 🩸
-      </ListBox.Item>
-      
-      {/* Volunteer Option */}
-      <ListBox.Item id="volunteer" textValue="volunteer" className="text-sm">
-        Volunteer 🤝
-      </ListBox.Item>
-    </ListBox>
-  </Select.Popover>
-</Select>
-
-        {/* Form Submit & Reset Buttons */}
-        <div className="flex gap-2 mt-2">
-          <Button 
-            type="submit"
-            className="bg-rose-600 hover:bg-rose-700 text-white font-bold h-9 text-sm px-4 rounded-lg transition shadow-md flex items-center gap-1"
-          >
-            <Check className="w-4 h-4" />
-            Submit
-          </Button>
-          <Button 
-            type="reset" 
-            variant="flat"
-            className="font-bold text-slate-600 dark:text-slate-400 h-9 text-sm rounded-lg"
-            onClick={() => setPasswordValue("")} 
-          >
-            Reset
-          </Button>
-        </div>
-
-        {/* OR Divider */}
-        <div className="flex items-center my-0.5">
-          <div className="flex-1 border-t border-slate-200 dark:border-slate-800"></div>
-          <span className="px-2 text-slate-400 text-xs font-medium">OR</span>
-          <div className="flex-1 border-t border-slate-200 dark:border-slate-800"></div>
-        </div>
-
-        {/* Google Login Button */}
-        <Button
-          type="button"
-          variant="bordered"
-          isLoading={isLoading}
-          onClick={handleGoogleLogin}
-          className="w-full font-bold h-9 text-sm border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg flex items-center justify-center gap-2 text-slate-700 dark:text-slate-300"
-        >
-          {!isLoading && (
-            <svg className="w-4 h-4" viewBox="0 0 24 24">
-              <path
-                fill="#EA4335"
-                d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.33 0 3.357 2.72 1.5 6.662l3.766 3.103Z"
+          {/* Row 1: Name + Email */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Full Name <span className="text-rose-500">*</span>
+              </label>
+              <input
+                name="name"
+                type="text"
+                placeholder="Enter your full name"
+                className="w-full h-9 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
               />
-              <path
-                fill="#4285F4"
-                d="M23.49 12.275c0-.818-.073-1.609-.21-2.373H12v4.491h6.445c-.277 1.473-1.11 2.718-2.36 3.555l3.664 2.845C21.89 18.745 23.49 15.79 23.49 12.275Z"
+              {errors.name && <p className="text-xs text-rose-500 mt-1">{errors.name}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Email Address <span className="text-rose-500">*</span>
+              </label>
+              <input
+                name="email"
+                type="email"
+                placeholder="name@example.com"
+                className="w-full h-9 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
               />
-              <path
-                fill="#FBBC05"
-                d="M5.266 14.235 1.5 17.338A11.934 11.934 0 0 0 12 24c3.055 0 5.782-1.145 7.91-3L16.245 18.15c-1.2.8-2.727 1.273-4.245 1.273-3.41 0-6.282-2.3-7.314-5.41l3.58-2.778Z"
-              />
-              <path
-                fill="#34A853"
-                d="M12 19.423c-1.518 0-3.045-.473-4.245-1.273L4.09 21A11.934 11.934 0 0 0 12 24c3.055 0 5.782-1.145 7.91-3l-3.664-2.845A7.01 7.01 0 0 1 12 19.423Z"
-              />
-            </svg>
+              {errors.email && <p className="text-xs text-rose-500 mt-1">{errors.email}</p>}
+            </div>
+          </div>
+
+          {/* Row 2: Phone + Gender */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Phone Number <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">📞</span>
+                <input
+                  name="phone"
+                  type="tel"
+                  placeholder="+880 1XXX XXXXXXX"
+                  className="w-full h-9 pl-9 pr-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
+                />
+              </div>
+              {errors.phone && <p className="text-xs text-rose-500 mt-1">{errors.phone}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Gender
+              </label>
+              <select
+                name="gender"
+                defaultValue=""
+                className="w-full h-9 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-400 transition appearance-none"
+              >
+                <option value="" disabled>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Row 3: District + Upazila */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                District <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">📍</span>
+                <select
+                  value={selectedDistrict}
+                  onChange={(e) => {
+                    setSelectedDistrict(e.target.value);
+                    setSelectedUpazila("");
+                  }}
+                  className="w-full h-9 pl-9 pr-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-400 transition appearance-none"
+                >
+                  <option value="">Select District</option>
+                  {districts.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {errors.district && <p className="text-xs text-rose-500 mt-1">{errors.district}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Upazila <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🏘️</span>
+                <select
+                  value={selectedUpazila}
+                  onChange={(e) => setSelectedUpazila(e.target.value)}
+                  disabled={!selectedDistrict}
+                  className="w-full h-9 pl-9 pr-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-rose-400 transition appearance-none disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <option value="">Select Upazila</option>
+                  {filteredUpazilas.map((u) => (
+                    <option key={u.id} value={u.id}>
+                      {u.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              {errors.upazila && <p className="text-xs text-rose-500 mt-1">{errors.upazila}</p>}
+            </div>
+          </div>
+
+          {/* Blood Group */}
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+              Blood Group <span className="text-rose-500">*</span>
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {BLOOD_GROUPS.map((bg) => (
+                <button
+                  key={bg}
+                  type="button"
+                  onClick={() => setSelectedBloodGroup(bg)}
+                  className={`px-3 py-1 rounded-lg border text-sm font-semibold transition-all ${
+                    selectedBloodGroup === bg
+                      ? "bg-rose-600 text-white border-rose-600 shadow-md scale-105"
+                      : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-rose-400"
+                  }`}
+                >
+                  {bg}
+                </button>
+              ))}
+            </div>
+            {errors.bloodGroup && (
+              <p className="text-xs text-rose-500 mt-1">{errors.bloodGroup}</p>
+            )}
+          </div>
+
+          {/* Row 4: Password + Confirm Password */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Password <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔒</span>
+                <input
+                  name="password"
+                  type="password"
+                  placeholder="••••••••"
+                  onChange={(e) => setPasswordValue(e.target.value)}
+                  className="w-full h-9 pl-9 pr-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
+                />
+              </div>
+              <p className="text-[10px] text-slate-400 mt-0.5">
+                8+ chars, 1 uppercase & 1 number
+              </p>
+              {errors.password && <p className="text-xs text-rose-500">{errors.password}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Confirm Password <span className="text-rose-500">*</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔁</span>
+                <input
+                  name="confirmPassword"
+                  type="password"
+                  placeholder="••••••••"
+                  className="w-full h-9 pl-9 pr-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
+                />
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-xs text-rose-500 mt-1">{errors.confirmPassword}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Submit Error */}
+          {submitError && (
+            <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400 text-sm rounded-lg px-4 py-2.5">
+              {submitError}
+            </div>
           )}
-          Sign up with Google
-        </Button>
 
-        {/* Login Link */}
-        <div className="text-center mt-2 text-xs text-slate-500">
-          Already have an account?{" "}
-          <Link href="/login" className="text-rose-600 font-bold hover:underline">
-            Login
-          </Link>
-        </div>
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            isLoading={isLoading}
+            className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold h-10 text-sm rounded-lg transition shadow-md mt-2"
+          >
+            {!isLoading && "Complete Registration"}
+          </Button>
 
-      </Form>
-    </Card>
+          {/* Login Link */}
+          <p className="text-center text-xs text-slate-500 mt-3">
+            Already have an account?{" "}
+            <Link href="/login" className="text-rose-600 font-bold hover:underline">
+              Login here
+            </Link>
+          </p>
+        </form>
+      </Card>
+    </div>
   );
 }

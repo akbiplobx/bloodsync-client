@@ -80,7 +80,7 @@ export default function SignInPage() {
     <div className="flex items-center justify-center min-h-[calc(100vh-100px)]">
       <Card className="border mx-auto w-full max-w-sm py-6 px-5 mt-5 shadow-lg rounded-2xl">
         <h1 className="text-center text-xl font-bold text-slate-800 mb-1">Login</h1>
-        <p className="text-center text-xs text-slate-400 mb-4">Welcome back to PetHaven!</p>
+        <p className="text-center text-xs text-slate-400 mb-4">Welcome back to BloodSync!</p>
 
         <Form className="flex w-full flex-col gap-3" onSubmit={onSubmit}>
           <Button 
