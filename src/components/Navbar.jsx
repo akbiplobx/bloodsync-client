@@ -103,14 +103,7 @@ const Navbar = () => {
                         {session.user?.role || "donor"}
                       </span>
                     </div>
-                    {/* ✨ Added Link for Profile Page */}
-                    <Link
-                      href="/profile"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="block px-4 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition font-medium border-t border-slate-100 dark:border-slate-700/50"
-                    >
-                      Profile Edit
-                    </Link>
+                   
                     {/* Dynamic Link for Dashboard */}
                     <Link
                       href={dashboardLink}
@@ -188,7 +181,7 @@ const Navbar = () => {
                   <Link href="/funding" onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-rose-600">Funding</Link>
                   <Link href={dashboardLink} onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-rose-600">Dashboard</Link>
                   {/* ✨ Added Link for Mobile Profile */}
-                  <Link href="/profile" onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-rose-600">Profile</Link>
+                 
                 </>
               )}
 

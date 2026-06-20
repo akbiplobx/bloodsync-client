@@ -23,6 +23,9 @@ export const auth = betterAuth({
         type: "string",
         defaultValue: "donor", 
       },
+      district: { type: "string" },
+      upazila: { type: "string" },
+      bloodGroup: { type: "string" },
     },
   },
   socialProviders: {
