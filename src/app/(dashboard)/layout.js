@@ -1,17 +1,16 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-// react-icons থেকে পিওর জাভাস্ক্রিপ্ট আইকন ইমপোর্ট
-import { FaPlusCircle, FaListAlt, FaHistory, FaHome } from "react-icons/fa";
+import { FaPlusCircle, FaListAlt, FaHistory, FaHome, FaUser } from "react-icons/fa";
 
 export default function DashboardLayout({ children }) {
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    // মূল কনটেইনারে bg-white এবং টেক্সট কালার পরিবর্তন করা হয়েছে
+    <div className="flex flex-col md:flex-row min-h-screen bg-white text-slate-800 transition-colors duration-300">
       
-      {/* Sidebar Section */}
-      <div className="w-full md:w-64 bg-slate-900 text-slate-100 p-5 space-y-6 border-r border-slate-800">
+      {/* Sidebar Section - সাইডবারটি গাঢ় রাখা হয়েছে কারণ এটি ড্যাশবোর্ডের পরিচিতি */}
+      <div className="w-full md:w-64 bg-slate-900 text-slate-100 p-5 space-y-6">
         
-        {/* Brand/Logo Area */}
         <div className="text-2xl font-black text-center border-b border-slate-800 pb-4 flex flex-col items-center gap-1">
           <div className="flex items-center gap-1.5 tracking-tighter">
             Blood<span className="text-rose-500">Sync</span>
@@ -21,10 +20,15 @@ export default function DashboardLayout({ children }) {
           </span>
         </div>
         
-        {/* Navigation Links */}
         <nav className="flex flex-col space-y-1 text-sm font-medium text-slate-300">
           
-          {/* 1. Request Blood */}
+          <Link 
+            href="/dashboard/profile" 
+            className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
+          >
+            <FaUser className="text-rose-500 text-lg" /> My Profile
+          </Link>
+
           <Link 
             href="/dashboard/create-request" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
@@ -32,7 +36,6 @@ export default function DashboardLayout({ children }) {
             <FaPlusCircle className="text-rose-500 text-lg" /> Request Blood
           </Link>
           
-          {/* 2. My Donation Requests */}
           <Link 
             href="/dashboard/my-requests" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
@@ -40,7 +43,6 @@ export default function DashboardLayout({ children }) {
             <FaListAlt className="text-rose-500 text-lg" /> My Requests
           </Link>
           
-          {/* 3. My Donations */}
           <Link 
             href="/dashboard/my-donations" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
@@ -48,10 +50,8 @@ export default function DashboardLayout({ children }) {
             <FaHistory className="text-rose-500 text-lg" /> My Donations
           </Link>
           
-          {/* Decorative Divider */}
           <div className="border-t border-slate-800 my-4 pt-4"></div>
           
-          {/* 4. Back to Home */}
           <Link 
             href="/" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white text-slate-400"
@@ -61,8 +61,8 @@ export default function DashboardLayout({ children }) {
         </nav>
       </div>
 
-      {/* Main Content Area */}
-      <div className="flex-1 p-6 md:p-10 overflow-y-auto">
+      {/* Main Content Area - এখানে ব্যাকগ্রাউন্ড সাদা এবং টেক্সট কালো রাখা হয়েছে */}
+      <div className="flex-1 p-6 md:p-10 overflow-y-auto bg-white text-slate-900">
         {children}
       </div>
       
