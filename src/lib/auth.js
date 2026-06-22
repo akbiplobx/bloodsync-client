@@ -26,7 +26,12 @@ export const auth = betterAuth({
       district: { type: "string" },
       upazila: { type: "string" },
       bloodGroup: { type: "string" },
+      plan: {
+        defaultValue: "free",
+      },
+      image: { type: "string" },
     },
+    
   },
   socialProviders: {
     google: {

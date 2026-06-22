@@ -45,34 +45,43 @@ export function UpdateUserModal() {
   const handleUpdate = async () => {
     try {
       setLoading(true);
-      let finalImageUrl = session?.user?.image || "";
+      let finalImageUrl = previewUrl;
 
+      // ইমেজ আপলোড লজিক (ImgBB)
       if (imageFile) {
         const formData = new FormData();
         formData.append("image", imageFile);
+        
         const res = await fetch(`https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMGBB_API_KEY}`, {
-          method: "POST", 
+          method: "POST",
           body: formData
         });
+        
         const data = await res.json();
-        if (data.success) finalImageUrl = data.data.url;
+        if (data.success) {
+          finalImageUrl = data.data.url;
+        } else {
+          throw new Error("ইমেজ আপলোড ব্যর্থ হয়েছে।");
+        }
       }
       
+
       const { error } = await authClient.updateUser({
-        name,
+        name: name,
         image: finalImageUrl,
-        district,
-        upazila,
-        bloodGroup
+        
+        district: district,
+        upazila: upazila,
+        bloodGroup: bloodGroup
       });
 
       if (error) throw new Error(error.message);
       
-      toast.success("Profile updated successfully!");
+      toast.success("প্রোফাইল আপডেট সফল হয়েছে!");
       setIsOpen(false);
-      window.location.reload();
+      window.location.reload(); 
     } catch (err) {
-      toast.error(err.message || "Update failed");
+      toast.error(err.message || "আপডেট ব্যর্থ হয়েছে");
     } finally {
       setLoading(false);
     }
@@ -89,29 +98,21 @@ export function UpdateUserModal() {
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <h3 className="font-black text-lg text-center">Update Profile</h3>
             
-            {/* কাস্টম ইমেজ আপলোড ডিজাইন */}
             <div className="flex flex-col items-center gap-2">
               <div className="relative group cursor-pointer" onClick={() => fileInputRef.current.click()}>
                 <img 
-                  src={previewUrl || "/default-avatar.png"} 
+                  src={previewUrl || `https://ui-avatars.com/api/?name=${name || "User"}`} 
                   className="w-24 h-24 rounded-full object-cover border-4 border-rose-100 group-hover:opacity-70 transition-all" 
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                   <Camera className="text-white" size={24} />
                 </div>
               </div>
-              <input 
-                type="file" 
-                accept="image/*" 
-                ref={fileInputRef} 
-                onChange={handleFileChange} 
-                className="hidden" 
-              />
-              <p className="text-xs text-gray-400">Click avatar to change photo</p>
+              <input type="file" accept="image/*" ref={fileInputRef} onChange={handleFileChange} className="hidden" />
             </div>
 
             <input value={name} onChange={(e) => setName(e.target.value)} className="w-full border p-2 rounded-lg" placeholder="Name" />
-
+            
             <select value={district} onChange={(e) => { setDistrict(e.target.value); setUpazila(""); }} className="w-full border p-2 rounded-lg">
               <option value="">Select District</option>
               {districts.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
@@ -127,7 +128,7 @@ export function UpdateUserModal() {
               {BLOOD_GROUPS.map(bg => <option key={bg} value={bg}>{bg}</option>)}
             </select>
 
-            <button onClick={handleUpdate} disabled={loading} className="w-full bg-rose-600 text-white py-2 rounded-lg font-bold hover:bg-rose-700 transition-colors">
+            <button onClick={handleUpdate} disabled={loading} className="w-full bg-rose-600 text-white py-2 rounded-lg font-bold hover:bg-rose-700">
               {loading ? "Saving..." : "Save Changes"}
             </button>
           </div>
