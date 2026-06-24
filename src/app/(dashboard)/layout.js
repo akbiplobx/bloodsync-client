@@ -37,10 +37,10 @@ export default function DashboardLayout({ children }) {
           </Link>
           
           <Link 
-            href="/dashboard/my-requests" 
+            href="/dashboard/my-donations" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
           >
-            <FaListAlt className="text-[#ff0000] text-lg" /> My Requests
+            <FaListAlt className="text-[#ff0000] text-lg" /> My Donations
           </Link>
           
                   

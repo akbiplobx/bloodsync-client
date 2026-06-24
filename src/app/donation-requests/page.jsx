@@ -49,24 +49,18 @@ const AllBloodRequests = () => {
   if (!mounted) return null;
 
   return (
-    <section suppressHydrationWarning className="py-16 min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white transition-colors duration-300">
-      <div className="container mx-auto px-4 max-w-[95rem]">
+    <section suppressHydrationWarning className=" min-h-screen bg-slate-50 dark:bg-[#030712] text-slate-900 dark:text-white transition-colors duration-300">
+      <div className="container mx-auto  max-w-[95rem]">
         
-        <div className="mb-6">
-          <span className="text-xs font-bold text-[#ff0000] bg-orange-500/10 px-3 py-1 rounded-full uppercase tracking-wider">
-            Emergency Dashboard
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black mt-3">
-            Search <span className="text-[#ff0000]">Blood Requests</span>
-          </h2>
-          <p className="text-slate-700 dark:text-slate-400 text-sm mt-2 font-medium">
-            {requests.length} active emergency blood requests looking for donors
-          </p>
+        <div className="">
+         
+         
+          
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-sm mb-12 transition-colors duration-300">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 p-3 rounded-xl bg-white   duration-300">
           <div className="flex flex-col justify-end">
-            <label className="block font-black text-xs text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wider">Search by hospital or area</label>
+            {/* <label className="block font-black text-xs text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wider">Search by hospital or area</label> */}
             <input
               type="text"
               placeholder="Type location or hospital name..."
@@ -77,7 +71,7 @@ const AllBloodRequests = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-black text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wider">Filter by Blood Group</label>
+            {/* <label className="block text-xs font-black text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wider">Filter by Blood Group</label> */}
             <select 
               value={selectedBloodGroup}
               onChange={(e) => setSelectedBloodGroup(e.target.value)}
@@ -96,7 +90,7 @@ const AllBloodRequests = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-black text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wider">Filter by Urgency</label>
+            {/* <label className="block text-xs font-black text-slate-700 dark:text-slate-300 mb-2 uppercase tracking-wider">Filter by Urgency</label> */}
             <select 
               value={urgencyLevel}
               onChange={(e) => setUrgencyLevel(e.target.value)}

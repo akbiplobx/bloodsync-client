@@ -3,14 +3,14 @@ import { headers } from 'next/headers';
 import { stripe } from '@/lib/stripe';
 import { auth } from '@/lib/auth';
 
-export const dynamic = 'force-dynamic'; // এটি যোগ করা জরুরি
+export const dynamic = 'force-dynamic'; 
 
 export async function POST(req) {
   try {
     const headersList = await headers();
     const origin = headersList.get('origin');
     
-    // সেশন যাচাই করুন
+    
     const userSession = await auth.api.getSession({
       headers: headersList,
     });

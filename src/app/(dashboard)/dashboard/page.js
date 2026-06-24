@@ -32,7 +32,7 @@ export default function DashboardHome() {
               <FaPlusCircle />
             </div>
             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1">
-              Request Blood
+              Create Request
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               Post a new request for blood in case of an emergency or upcoming medical need.
@@ -45,7 +45,7 @@ export default function DashboardHome() {
 
         {/* Card 2: My Requests */}
         <Link 
-          href="/dashboard/my-requests"
+          href="/dashboard/my-donations"
           className="group p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[160px]"
         >
           <div>
@@ -53,7 +53,7 @@ export default function DashboardHome() {
               <FaListAlt />
             </div>
             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1">
-              My Requests
+              My Donations
             </h3>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               Track the realtime status and responses of the blood requests you have created.
