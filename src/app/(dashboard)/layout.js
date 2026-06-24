@@ -5,10 +5,10 @@ import { FaPlusCircle, FaListAlt, FaHistory, FaHome, FaUser } from "react-icons/
 
 export default function DashboardLayout({ children }) {
   return (
-    // মূল কনটেইনারে bg-white এবং টেক্সট কালার পরিবর্তন করা হয়েছে
+    
     <div className="flex flex-col md:flex-row min-h-screen bg-white text-slate-800 transition-colors duration-300">
       
-      {/* Sidebar Section - সাইডবারটি গাঢ় রাখা হয়েছে কারণ এটি ড্যাশবোর্ডের পরিচিতি */}
+      
       <div className="w-full md:w-64 bg-slate-900 text-slate-100 p-5 space-y-6">
         
         <div className="text-2xl font-black text-center border-b border-slate-800 pb-4 flex flex-col items-center gap-1">
@@ -33,7 +33,7 @@ export default function DashboardLayout({ children }) {
             href="/dashboard/create-request" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
           >
-            <FaPlusCircle className="text-rose-500 text-lg" /> Request Blood
+            <FaPlusCircle className="text-rose-500 text-lg" /> Create Request 
           </Link>
           
           <Link 
@@ -43,13 +43,7 @@ export default function DashboardLayout({ children }) {
             <FaListAlt className="text-rose-500 text-lg" /> My Requests
           </Link>
           
-          <Link 
-            href="/dashboard/my-donations" 
-            className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
-          >
-            <FaHistory className="text-rose-500 text-lg" /> My Donations
-          </Link>
-          
+                  
           <div className="border-t border-slate-800 my-4 pt-4"></div>
           
           <Link 
@@ -61,7 +55,7 @@ export default function DashboardLayout({ children }) {
         </nav>
       </div>
 
-      {/* Main Content Area - এখানে ব্যাকগ্রাউন্ড সাদা এবং টেক্সট কালো রাখা হয়েছে */}
+      
       <div className="flex-1 p-6 md:p-10 overflow-y-auto bg-white text-slate-900">
         {children}
       </div>

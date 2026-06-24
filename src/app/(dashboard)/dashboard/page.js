@@ -64,26 +64,7 @@ export default function DashboardHome() {
           </span>
         </Link>
 
-        {/* Card 3: My Donations */}
-        <Link 
-          href="/dashboard/my-donations"
-          className="group p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[160px]"
-        >
-          <div>
-            <div className="w-12 h-12 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center text-emerald-500 text-xl font-bold mb-4 group-hover:scale-110 transition-transform duration-200">
-              <FaHistory />
-            </div>
-            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1">
-              My Donations
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">
-              View your complete blood donation history and track lives you've saved.
-            </p>
-          </div>
-          <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-4 block group-hover:translate-x-1 transition-transform">
-            Check History &rarr;
-          </span>
-        </Link>
+
 
       </div>
     </div>
