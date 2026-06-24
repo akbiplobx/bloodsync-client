@@ -9,7 +9,7 @@ export default function VolunteerLayout({ children }) {
         <div>
           {/* Logo */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="text-[#ff0000] text-2xl font-black tracking-wider">BloodSync</div>
+            <div className="text-[#ff0000] text-2xl font-black tracking-wider">Volunteer</div>
           </div>
 
           {/* Main Navigation Menu */}
@@ -40,7 +40,7 @@ export default function VolunteerLayout({ children }) {
                 </li>
                 <li>
                   <Link href="/volunteer/my-requests" className="flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
-                    <span>🩸</span> My Created Requests
+                    <span>🩸</span> My Requests
                   </Link>
                 </li>
               </ul>
