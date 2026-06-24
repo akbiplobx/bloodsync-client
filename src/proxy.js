@@ -13,7 +13,7 @@ export async function proxy(request) {
   //   const isLoggedIn = false;
 
 if(!session) {
-         return NextResponse.redirect(new URL('/signin', request.url))
+         return NextResponse.redirect(new URL('/login', request.url))
     }
   // if (session) {
   //   return NextResponse.next();
@@ -27,5 +27,8 @@ export const config = {
  
   matcher: [
   '/dashboard/:path*',
+  // '/donation-requests/:path*',
+  '/donation-details/:path*',
+  '/search/:path*'
 ]
 }

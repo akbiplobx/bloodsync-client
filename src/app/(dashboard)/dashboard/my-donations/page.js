@@ -65,7 +65,7 @@ export default function MyRequestsPage() {
     toast.info(
       <div className="flex flex-col gap-2 p-1">
         <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">
-          Are you sure you want to delete request for <span className="text-rose-600">"{patientName}"</span>?
+          Are you sure you want to delete request for <span className="text-[#ff0000]">"{patientName}"</span>?
         </p>
         <div className="flex justify-end gap-2 mt-2">
           <button 
@@ -79,7 +79,7 @@ export default function MyRequestsPage() {
               toast.dismiss();
               proceedToDelete(id);
             }} 
-            className="px-3 py-1.5 text-xs font-bold bg-rose-500 text-white rounded-xl hover:bg-rose-600 transition-all shadow-sm"
+            className="px-3 py-1.5 text-xs font-bold bg-rose-500 text-white rounded-xl hover:bg-[#ff0000] transition-all shadow-sm"
           >
             Yes, Delete
           </button>
@@ -119,7 +119,7 @@ export default function MyRequestsPage() {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-[60vh]">
-        <Spinner label="Loading your requests..." className="text-rose-600" size="lg" />
+        <Spinner label="Loading your requests..." className="text-[#ff0000]" size="lg" />
       </div>
     );
   }
@@ -130,11 +130,11 @@ export default function MyRequestsPage() {
       {/* Header section content */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-bold text-rose-600 bg-rose-500/10 px-3 py-1 rounded-full w-max mb-2">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#ff0000] bg-rose-500/10 px-3 py-1 rounded-full w-max mb-2">
             <LayoutDashboard size={14} /> User Dashboard
           </div>
           <h1 className="text-3xl font-black tracking-tight">
-            My Blood <span className="text-rose-600">Requests</span>
+            My Blood <span className="text-[#ff0000]">Requests</span>
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
             Track and manage your posted emergency blood requests in real time.
@@ -142,7 +142,7 @@ export default function MyRequestsPage() {
         </div>
         
         <Link href="/dashboard/create-request">
-          <button className="flex items-center justify-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-bold px-5 py-3 rounded-2xl shadow-lg shadow-rose-500/20 active:scale-[0.98] transition-all text-sm w-full sm:w-auto cursor-pointer">
+          <button className="flex items-center justify-center gap-2 bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold px-5 py-3 rounded-2xl shadow-lg shadow-rose-500/20 active:scale-[0.98] transition-all text-sm w-full sm:w-auto cursor-pointer">
             <Plus size={18} /> Create Request
           </button>
         </Link>
@@ -151,7 +151,7 @@ export default function MyRequestsPage() {
       {/* Analytics count showcase */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-sm text-center space-y-1">
-          <p className="text-3xl font-black text-rose-600">{totalRequests}</p>
+          <p className="text-3xl font-black text-[#ff0000]">{totalRequests}</p>
           <p className="text-sm font-bold text-slate-500 dark:text-slate-400">Total Requests</p>
         </div>
         <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-sm text-center space-y-1">
@@ -186,7 +186,7 @@ export default function MyRequestsPage() {
                 {/* Visual blood group emblem container layout */}
                 <div className="h-40 bg-gradient-to-br from-rose-50 to-red-100 dark:from-slate-950 dark:to-rose-950/20 relative flex items-center justify-center border-b border-slate-100 dark:border-slate-800/50">
                   <div className="text-center">
-                    <span className="block text-4xl font-black text-rose-600 dark:text-rose-500 drop-shadow-sm">
+                    <span className="block text-4xl font-black text-[#ff0000] dark:text-rose-500 drop-shadow-sm">
                       {request.bloodGroup || "N/A"}
                     </span>
                     <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">
@@ -232,7 +232,7 @@ export default function MyRequestsPage() {
                     <div className="grid grid-cols-1">
                       <button 
                         onClick={() => confirmDeleteToast(requestId, request.patientName || "this request")}
-                        className="flex items-center justify-center gap-1.5 py-2 px-3 border border-rose-500/20 rounded-xl text-xs font-bold bg-rose-500/5 hover:bg-rose-500/10 text-rose-600 transition-colors cursor-pointer"
+                        className="flex items-center justify-center gap-1.5 py-2 px-3 border border-rose-500/20 rounded-xl text-xs font-bold bg-rose-500/5 hover:bg-rose-500/10 text-[#ff0000] transition-colors cursor-pointer"
                       >
                         <Trash2 size={14} /> Delete Emergency Request
                       </button>

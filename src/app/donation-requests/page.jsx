@@ -53,11 +53,11 @@ const AllBloodRequests = () => {
       <div className="container mx-auto px-4 max-w-[95rem]">
         
         <div className="mb-6">
-          <span className="text-xs font-bold text-orange-600 bg-orange-500/10 px-3 py-1 rounded-full uppercase tracking-wider">
+          <span className="text-xs font-bold text-[#ff0000] bg-orange-500/10 px-3 py-1 rounded-full uppercase tracking-wider">
             Emergency Dashboard
           </span>
           <h2 className="text-3xl md:text-5xl font-black mt-3">
-            Search <span className="text-orange-600">Blood Requests</span>
+            Search <span className="text-[#ff0000]">Blood Requests</span>
           </h2>
           <p className="text-slate-700 dark:text-slate-400 text-sm mt-2 font-medium">
             {requests.length} active emergency blood requests looking for donors
@@ -111,7 +111,7 @@ const AllBloodRequests = () => {
 
         {loading ? (
           <div className="flex justify-center items-center min-h-[300px]">
-            <Spinner label="Scanning database for active cases..." className="text-orange-600" size="lg" />
+            <Spinner label="Scanning database for active cases..." className="text-[#ff0000]" size="lg" />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -132,9 +132,9 @@ const AllBloodRequests = () => {
                     onClick={() => router.push(`/blood-request/${requestId}`)}
                     className="rounded-3xl shadow-md overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/30 flex flex-col hover:shadow-xl transition-all cursor-pointer"
                   >
-                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-slate-950 dark:to-orange-950/20 h-44 relative flex items-center justify-center border-b border-slate-100 dark:border-slate-800/50">
+                    <div className="bg-gradient-to-br from-red-50 to-red-100 dark:from-slate-950 dark:to-red-950/20 h-44 relative flex items-center justify-center border-b border-slate-100 dark:border-slate-800/50">
                       <div className="text-center">
-                        <span className="block text-5xl font-black text-orange-600 dark:text-orange-500">
+                        <span className="block text-5xl font-black text-[#ff0000] dark:text-[#ff0000]">
                           {req.bloodGroup}
                         </span>
                         <span className="block text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">
@@ -148,7 +148,7 @@ const AllBloodRequests = () => {
 
                     <div className="p-6 flex flex-col flex-grow">
                       <div className="flex justify-between items-center mb-3">
-                        <span className="text-xs font-black text-orange-600 uppercase tracking-wider bg-orange-500/10 px-3 py-1 rounded-full">
+                        <span className="text-xs font-black text-[#ff0000] uppercase tracking-wider bg-orange-500/10 px-3 py-1 rounded-full">
                           {req.relation || "Patient Case"}
                         </span>
                         <span className="text-slate-500 dark:text-slate-400 font-bold text-xs">
@@ -162,17 +162,11 @@ const AllBloodRequests = () => {
                       
                       <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-800 flex gap-2" onClick={(e) => e.stopPropagation()}>
                         <Link href={`/donation-details/${requestId}`} className="flex-1">
-                          <button className="w-full border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 px-4 py-2.5 rounded-xl text-sm font-bold transition-all shadow-xs cursor-pointer">
+                          <button className="w-full border border-slate-200 bg-[#ff0000] hover:bg-[#cc0000] text-white px-4 py-2.5 rounded-xl text-sm font-bold  cursor-pointer">
                             View
                           </button>
                         </Link>
-                        <button 
-                          disabled={isManaged} 
-                          onClick={() => router.push(`/donation-details/${requestId}`)} 
-                          className={`flex-1 px-4 py-2.5 rounded-xl text-sm font-bold transition-all text-white cursor-pointer ${isManaged ? 'bg-slate-200 dark:bg-slate-800 text-slate-400' : 'bg-orange-500 hover:bg-orange-600 shadow-md shadow-orange-500/20'}`}
-                        >
-                          {isManaged ? 'Fulfilled' : 'Donate'}
-                        </button>
+                       
                       </div>
                     </div>
                   </motion.div>

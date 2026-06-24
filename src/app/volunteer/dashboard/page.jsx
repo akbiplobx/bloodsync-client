@@ -34,7 +34,7 @@ export default async function VolunteerDashboard() {
           <h1 className="text-3xl font-black text-slate-800 dark:text-slate-100">Volunteer Dashboard</h1>
           <p className="text-sm text-slate-500 mt-1">Welcome back, {session.user.name}! Manage and create blood donation requests.</p>
         </div>
-        <button className="px-5 py-2.5 text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white rounded-xl shadow-md transition-all flex items-center gap-2">
+        <button className="px-5 py-2.5 text-sm font-bold bg-[#ff0000] hover:bg-[#cc0000] text-white rounded-xl shadow-md transition-all flex items-center gap-2">
           <span>➕</span> New Blood Request
         </button>
       </div>
@@ -82,7 +82,7 @@ export default async function VolunteerDashboard() {
                   <td className="py-4 px-6 text-slate-400 font-mono text-xs">{req.id}</td>
                   <td className="py-4 px-6 font-bold text-slate-800 dark:text-slate-200">{req.patientName}</td>
                   <td className="py-4 px-6 text-center">
-                    <span className="inline-block bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-400 font-black text-xs px-2.5 py-1 rounded-md">
+                    <span className="inline-block bg-rose-50 text-[#ff0000] dark:bg-rose-950/40 dark:text-rose-400 font-black text-xs px-2.5 py-1 rounded-md">
                       {req.bloodType}
                     </span>
                   </td>

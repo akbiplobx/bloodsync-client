@@ -45,23 +45,26 @@ const Navbar = () => {
             className="w-10 h-10 object-contain"
           />
           <h3 className="font-black text-2xl tracking-tighter text-slate-800 dark:text-slate-100">
-            Blood<span className="text-rose-600">Sync</span>
+            Blood<span className="text-[#ff0000]">Sync</span>
           </h3>
         </Link>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
           <li>
-            <Link href="/" className="hover:text-rose-600 transition">Home</Link>
+            <Link href="/" className="hover:text-[#ff0000] transition">Home</Link>
           </li>
           <li>
-            <Link href="/donation-requests" className="hover:text-rose-600 transition">Donation Requests</Link>
+            <Link href="/donation-requests" className="hover:text-[#ff0000] transition">Donation Requests</Link>
+          </li>
+          <li>
+            <Link href="/search" className="hover:text-[#ff0000] transition">Search Donors</Link>
           </li>
 
           {/* Funding Link - Only show after logged in */}
           {session && (
             <li>
-              <Link href="/funding" className="hover:text-rose-600 transition">Funding</Link>
+              <Link href="/funding" className="hover:text-[#ff0000] transition">Funding</Link>
             </li>
           )}
         </ul>
@@ -99,7 +102,7 @@ const Navbar = () => {
                     <div className="px-4 py-2 border-b border-slate-50 dark:border-slate-700">
                       <p className="text-xs text-slate-400 font-medium">Logged in as</p>
                       <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{session.user.email}</p>
-                      <span className="inline-block text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 px-1.5 py-0.5 mt-1 rounded">
+                      <span className="inline-block text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-[#ff0000] dark:text-rose-400 px-1.5 py-0.5 mt-1 rounded">
                         {session.user?.role || "donor"}
                       </span>
                     </div>
@@ -117,7 +120,7 @@ const Navbar = () => {
 
                     <button
                       onClick={() => { handleSignOut(); setIsDropdownOpen(false); }}
-                      className="w-full text-left px-4 py-2 text-sm text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition font-medium border-t border-slate-50 dark:border-slate-700/50"
+                      className="w-full text-left px-4 py-2 text-sm text-[#ff0000] hover:bg-rose-50 dark:hover:bg-rose-950/30 transition font-medium border-t border-slate-50 dark:border-slate-700/50"
                     >
                       Logout
                     </button>
@@ -129,13 +132,13 @@ const Navbar = () => {
             <div className="flex items-center gap-4">
               <Link
                 href="/login"
-                className="text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-rose-600 transition"
+                className="text-sm font-bold text-slate-700 dark:text-slate-300 hover:text-[#ff0000] transition"
               >
                 Login
               </Link>
               <Link
                 href="/register"
-                className="px-5 py-2 text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white rounded-full shadow-md shadow-rose-100 dark:shadow-none transition-all duration-300"
+                className="px-5 py-2 text-sm font-bold bg-[#ff0000] hover:bg-[#cc0000] text-white rounded-full shadow-md shadow-rose-100 dark:shadow-none transition-all duration-300"
               >
                 Sign Up
               </Link>
@@ -173,14 +176,14 @@ const Navbar = () => {
             className="md:hidden overflow-hidden bg-white dark:bg-slate-900 border-t dark:border-slate-800"
           >
             <div className="flex flex-col gap-3 p-5">
-              <Link href="/" onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-rose-600">Home</Link>
-              <Link href="/donation-requests" onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-rose-600">Donation Requests</Link>
+              <Link href="/" onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-[#ff0000]">Home</Link>
+              <Link href="/donation-requests" onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-[#ff0000]">Donation Requests</Link>
 
               {session && (
                 <>
-                  <Link href="/funding" onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-rose-600">Funding</Link>
-                  <Link href={dashboardLink} onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-rose-600">Dashboard</Link>
-                  {/* ✨ Added Link for Mobile Profile */}
+                  <Link href="/funding" onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-[#ff0000]">Funding</Link>
+                  <Link href={dashboardLink} onClick={() => setIsOpen(false)} className="text-slate-700 dark:text-slate-300 font-semibold py-2 hover:text-[#ff0000]">Dashboard</Link>
+                  {/*  Added Link for Mobile Profile */}
                  
                 </>
               )}
@@ -194,14 +197,14 @@ const Navbar = () => {
                     <div>
                       <div className="flex items-center gap-2">
                         <p className="font-bold text-slate-800 dark:text-slate-200">{session.user.name}</p>
-                        <span className="text-[9px] font-black uppercase bg-rose-100 dark:bg-rose-950 text-rose-600 px-1 rounded">
+                        <span className="text-[9px] font-black uppercase bg-rose-100 dark:bg-rose-950 text-[#ff0000] px-1 rounded">
                           {session.user?.role || "donor"}
                         </span>
                       </div>
                       <p className="text-xs text-slate-500 dark:text-slate-400 truncate max-w-[180px]">{session.user.email}</p>
                     </div>
                   </div>
-                  <button onClick={() => { handleSignOut(); setIsOpen(false); }} className="w-full py-3 text-rose-600 font-bold border border-rose-100 dark:border-rose-900/50 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950/30 transition">
+                  <button onClick={() => { handleSignOut(); setIsOpen(false); }} className="w-full py-3 text-[#ff0000] font-bold border border-rose-100 dark:border-rose-900/50 rounded-xl hover:bg-rose-50 dark:hover:bg-rose-950/30 transition">
                     Logout
                   </button>
                 </div>
@@ -217,7 +220,7 @@ const Navbar = () => {
                   <Link
                     href="/register"
                     onClick={() => setIsOpen(false)}
-                    className="w-full text-center py-3 bg-rose-600 text-white rounded-xl font-bold shadow-md shadow-rose-100"
+                    className="w-full text-center py-3 bg-[#ff0000] text-white rounded-xl font-bold shadow-md shadow-rose-100"
                   >
                     Sign Up
                   </Link>

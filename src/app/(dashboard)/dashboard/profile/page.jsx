@@ -30,10 +30,10 @@ const ProfilePage = () => {
         <UpdateUserModal />
       </div>
 
-      {/* ৩-কলামের গ্রিড লেআউট */}
+     
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        {/* বাম দিকের বড় কার্ড (Personal & Address) */}
+        {/* (Personal & Address) */}
         <Card className="lg:col-span-2 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 space-y-10">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="w-24 h-24 rounded-full bg-rose-100 overflow-hidden border-4 border-white shadow-md">
@@ -67,7 +67,7 @@ const ProfilePage = () => {
           </div>
         </Card>
 
-        {/* ডান দিকের মেডিকেল প্রোফাইল কার্ড */}
+        {/* Medical Profile Card */}
         <Card className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col gap-6 h-fit">
           <div className="flex items-center gap-2">
             <div className="p-2 bg-rose-50 rounded-lg"><Droplets className="text-rose-500" size={20} /></div>
@@ -75,7 +75,7 @@ const ProfilePage = () => {
           </div>
           <div>
             <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Blood Group</p>
-            <div className="p-4 bg-rose-50 rounded-2xl"><p className="text-3xl font-black text-rose-600">{user?.bloodGroup || "N/A"}</p></div>
+            <div className="p-4 bg-rose-50 rounded-2xl"><p className="text-3xl font-black text-[#ff0000]">{user?.bloodGroup || "N/A"}</p></div>
           </div>
           <div className="bg-gray-50 p-4 rounded-2xl border border-gray-100">
             <h4 className="font-bold text-sm mb-1">Eligible to Donate</h4>

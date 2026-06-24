@@ -113,7 +113,7 @@ export default function BloodRequestDetails() {
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen bg-slate-50 dark:bg-[#030712]">
-        <Spinner label="Loading critical case matrix info..." className="text-rose-600" size="lg" />
+        <Spinner label="Loading critical case matrix info..." className="text-[#ff0000]" size="lg" />
       </div>
     );
   }
@@ -122,12 +122,12 @@ export default function BloodRequestDetails() {
     return (
       <div className="flex flex-col justify-center items-center min-h-screen bg-slate-50 dark:bg-[#030712] px-4 text-center">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl max-w-md w-full">
-          <div className="w-16 h-16 bg-rose-100 dark:bg-rose-950/40 text-rose-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 bg-rose-100 dark:bg-rose-950/40 text-[#ff0000] rounded-2xl flex items-center justify-center mx-auto mb-4">
             <Info size={32} />
           </div>
           <h2 className="text-2xl font-black text-black dark:text-white mb-2">Request Not Found!</h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm mb-6">The blood request might have been managed, fulfilled, or deleted by the author.</p>
-          <button onClick={() => router.push('/all-requests')} className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl transition-all shadow-md cursor-pointer">
+          <button onClick={() => router.push('/all-requests')} className="w-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold py-3 rounded-xl transition-all shadow-md cursor-pointer">
             Back to Active Cases
           </button>
         </motion.div>
@@ -145,7 +145,7 @@ export default function BloodRequestDetails() {
         {/* Back Button Operations */}
         <button 
           onClick={() => router.back()} 
-          className="flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-600 mb-8 transition-colors group cursor-pointer"
+          className="flex items-center gap-2 text-sm font-bold text-slate-600 dark:text-slate-400 hover:text-[#ff0000] dark:hover:text-[#ff0000] mb-8 transition-colors group cursor-pointer"
         >
           <ArrowLeft size={18} className="transition-transform group-hover:-translate-x-1" />
           Go Back
@@ -185,7 +185,7 @@ export default function BloodRequestDetails() {
                   Patient: {request.patientName}
                 </h2>
                 <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="text-xs font-bold text-rose-600 bg-rose-500/10 px-3 py-1 rounded-full flex items-center gap-1">
+                  <span className="text-xs font-bold text-[#ff0000] bg-rose-500/10 px-3 py-1 rounded-full flex items-center gap-1">
                     <User size={12} /> Age: {request.patientAge || "N/A"} Yrs
                   </span>
                   <span className="text-xs font-bold text-purple-600 bg-purple-500/10 px-3 py-1 rounded-full flex items-center gap-1">
@@ -198,7 +198,7 @@ export default function BloodRequestDetails() {
               </div>
               <div className="text-right">
                 <span className="text-xs font-bold text-slate-400 block uppercase tracking-wide">Target Deadline</span>
-                <span className="text-base font-black text-rose-600 block mt-0.5">
+                <span className="text-base font-black text-[#ff0000] block mt-0.5">
                   {request.donationDate || "Immediate"}
                 </span>
               </div>
@@ -208,7 +208,7 @@ export default function BloodRequestDetails() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80 text-center shadow-xs">
                 <span className="text-xs font-bold text-slate-400 block uppercase">Blood Required</span>
-                <span className="text-sm font-black mt-1 block text-rose-600">{request.bloodGroup || "N/A"}</span>
+                <span className="text-sm font-black mt-1 block text-[#ff0000]">{request.bloodGroup || "N/A"}</span>
               </div>
               <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80 text-center shadow-xs">
                 <span className="text-xs font-bold text-slate-400 block uppercase">Quantity</span>
@@ -227,7 +227,7 @@ export default function BloodRequestDetails() {
             {/* Extended Textual Placement Properties */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-100 dark:border-slate-800/80 flex items-center gap-3">
-                <MapPin className="text-rose-600 flex-shrink-0" size={20} />
+                <MapPin className="text-[#ff0000] flex-shrink-0" size={20} />
                 <div className="min-w-0">
                   <span className="text-xs font-bold text-slate-400 block uppercase">Hospital & Location</span>
                   <span className="text-sm font-black block truncate">{request.hospitalName || "Not specified"}</span>
@@ -260,7 +260,7 @@ export default function BloodRequestDetails() {
             >
               <div>
                 <h2 className="text-lg font-black flex items-center gap-2">
-                  <Heart size={18} className="text-rose-600 fill-rose-600" /> Apply to Donate Blood
+                  <Heart size={18} className="text-[#ff0000] fill-rose-600" /> Apply to Donate Blood
                 </h2>
                 <p className="text-xs text-slate-400 mt-1">Submit your interest to support this case file.</p>
               </div>
@@ -273,7 +273,7 @@ export default function BloodRequestDetails() {
                     type="text" 
                     value={`${request.bloodGroup} (${request.bagsCount || 1} Bags Required)`}
                     readOnly 
-                    className="w-full bg-slate-50 dark:bg-slate-800/60 text-rose-600 dark:text-rose-400 font-bold p-3 rounded-xl border border-slate-200/60 dark:border-slate-700/50 outline-none text-sm cursor-not-allowed"
+                    className="w-full bg-slate-50 dark:bg-slate-800/60 text-[#ff0000] dark:text-rose-400 font-bold p-3 rounded-xl border border-slate-200/60 dark:border-slate-700/50 outline-none text-sm cursor-not-allowed"
                   />
                 </div>
 
@@ -346,7 +346,7 @@ export default function BloodRequestDetails() {
                   className={`w-full py-3.5 rounded-xl font-black text-sm transition-all flex items-center justify-center gap-2 text-white shadow-md cursor-pointer ${
                     isManaged 
                       ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed shadow-none' 
-                      : 'bg-rose-600 hover:bg-rose-700 active:scale-[0.99]'
+                      : 'bg-[#ff0000] hover:bg-[#cc0000] active:scale-[0.99]'
                   }`}
                 >
                   {submitting ? (

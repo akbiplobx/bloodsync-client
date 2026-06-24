@@ -18,7 +18,7 @@ const Footer = () => {
                 className="w-10 h-10 object-contain" 
               />
               <h2 className="text-2xl font-extrabold tracking-tight text-slate-800 dark:text-slate-100">
-                Blood<span className="text-rose-600">Sync</span>
+                Blood<span className="text-[#ff0000]">Sync</span>
               </h2>
             </Link>
             <p className="text-sm leading-relaxed text-slate-500 dark:text-slate-400">
@@ -27,17 +27,17 @@ const Footer = () => {
 
             {/* Social Links with required new X logo */}
             <div className="flex items-center gap-4 text-slate-400 dark:text-slate-500">
-              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 hover:bg-rose-600 hover:text-white transition-all duration-300 shadow-sm">
+              <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 hover:bg-[#ff0000] hover:text-white transition-all duration-300 shadow-sm">
                 <i className="fa-brands fa-facebook-f text-sm"></i>
               </a>
               {/* Updated to use the latest X rebranding icon as per requirement docs */}
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 hover:bg-rose-600 hover:text-white transition-all duration-300 shadow-sm">
+              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 hover:bg-[#ff0000] hover:text-white transition-all duration-300 shadow-sm">
                 <i className="fa-brands fa-x-twitter text-sm"></i>
               </a>
-              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 hover:bg-rose-600 hover:text-white transition-all duration-300 shadow-sm">
+              <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 hover:bg-[#ff0000] hover:text-white transition-all duration-300 shadow-sm">
                 <i className="fa-brands fa-instagram text-sm"></i>
               </a>
-              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 hover:bg-rose-600 hover:text-white transition-all duration-300 shadow-sm">
+              <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 hover:bg-[#ff0000] hover:text-white transition-all duration-300 shadow-sm">
                 <i className="fa-brands fa-linkedin-in text-sm"></i>
               </a>
             </div>
@@ -49,9 +49,9 @@ const Footer = () => {
               Platform
             </h3>
             <ul className="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-              <li><Link href="/donation-requests" className="hover:text-rose-600 transition">Donation Requests</Link></li>
-              <li><Link href="/search" className="hover:text-rose-600 transition">Search Donors</Link></li>
-              <li><Link href="/funding" className="hover:text-rose-600 transition">Funding & Grants</Link></li>
+              <li><Link href="/donation-requests" className="hover:text-[#ff0000] transition">Donation Requests</Link></li>
+              <li><Link href="/search" className="hover:text-[#ff0000] transition">Search Donors</Link></li>
+              <li><Link href="/funding" className="hover:text-[#ff0000] transition">Funding & Grants</Link></li>
             </ul>
           </div>
 
@@ -62,13 +62,13 @@ const Footer = () => {
             </h3>
             <ul className="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
               <li className="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 mt-0.5 text-rose-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 mt-0.5 text-[#ff0000]">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25H4.5A2.25 2.25 0 0 1 2.25 17.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5H4.5A2.25 2.25 0 0 0 2.25 6.75m19.5 0-8.25 6.75-8.25-6.75" />
                 </svg>
                 <span>support@bloodsync.com</span>
               </li>
               <li className="flex items-start gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 mt-0.5 text-rose-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 mt-0.5 text-[#ff0000]">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                 </svg>
@@ -83,9 +83,9 @@ const Footer = () => {
               Organization
             </h3>
             <ul className="space-y-4 text-sm font-medium text-slate-500 dark:text-slate-400">
-              <li><Link href="/about" className="hover:text-rose-600 transition">About Us</Link></li>
-              <li><Link href="/terms" className="hover:text-rose-600 transition">Terms & Conditions</Link></li>
-              <li><Link href="/privacy" className="hover:text-rose-600 transition">Privacy Policy</Link></li>
+              <li><Link href="/about" className="hover:text-[#ff0000] transition">About Us</Link></li>
+              <li><Link href="/terms" className="hover:text-[#ff0000] transition">Terms & Conditions</Link></li>
+              <li><Link href="/privacy" className="hover:text-[#ff0000] transition">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>
@@ -96,8 +96,8 @@ const Footer = () => {
             © {currentYear} <span className="font-bold text-slate-600 dark:text-slate-400">BloodSync</span>. All rights reserved.
           </p>
           <div className="flex gap-8">
-            <Link href="/terms" className="text-xs text-slate-400 dark:text-slate-500 hover:text-rose-600 transition">Terms</Link>
-            <Link href="/privacy" className="text-xs text-slate-400 dark:text-slate-500 hover:text-rose-600 transition">Privacy</Link>
+            <Link href="/terms" className="text-xs text-slate-400 dark:text-slate-500 hover:text-[#ff0000] transition">Terms</Link>
+            <Link href="/privacy" className="text-xs text-slate-400 dark:text-slate-500 hover:text-[#ff0000] transition">Privacy</Link>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
-import FeaturedPets from "@/components/FeaturedPets";
-import { FosterBanner } from "@/components/FosterBanner";
+import { ContactUs } from "@/components/contactUs";
+import FeaturedDonors from "@/components/FeaturedDonors";
+
 import Hero from "@/components/Hero";
-import { HowItWorks } from "@/components/HowItWorks";
 
 export default function Home() {
   return (
@@ -9,11 +9,11 @@ export default function Home() {
       
       <main className="container mx-auto px-4 md:px-8"> 
         <Hero></Hero>    
-        <FeaturedPets></FeaturedPets>          
+        <FeaturedDonors></FeaturedDonors>          
       </main>
-          <HowItWorks />
-          
-      <FosterBanner />
+         
+          <ContactUs></ContactUs>
+      
     </>
   );
 }

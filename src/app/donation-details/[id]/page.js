@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 import { authClient } from '@/lib/auth-client';
 import { Calendar, Clock, MapPin, Hospital, Send } from 'lucide-react';
-import { Spinner } from "@heroui/react"; // অথবা আপনার প্রজেক্টের লোডার কম্পোনেন্ট
+import { Spinner } from "@heroui/react"; 
 
 export default function DonationPage() {
   const { id } = useParams();
@@ -55,7 +55,7 @@ export default function DonationPage() {
       const result = await res.json();
       if (result.success) {
         toast.success("Donation submitted successfully! 🎉");
-        router.push('/dashboard/my-donations'); // আপনার সঠিক ড্যাশবোর্ড রাউট
+        router.push('/dashboard/my-donations'); 
       } else {
         toast.error(result.message || "Something went wrong, please try again.");
       }
@@ -117,7 +117,7 @@ export default function DonationPage() {
           <form onSubmit={handleDonate} className="space-y-3">
             <textarea 
               name="message" 
-              placeholder="আপনার বার্তা লিখুন..." 
+              placeholder="write a message..." 
               className="w-full p-3 border rounded-xl bg-slate-50 text-sm focus:ring-2 focus:ring-red-200 outline-none" 
               rows="3"
             ></textarea>

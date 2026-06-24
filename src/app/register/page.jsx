@@ -119,7 +119,7 @@ export default function RegisterPage() {
         email: fields.email,
         password: fields.password,
         image: imageUrl,
-        // Extra fields — better_auth এ additionalFields দিয়ে handle করতে হবে
+        // Extra fields 
         phone: fields.phone,
         bloodGroup: selectedBloodGroup,
         district: districtObj?.name || "",
@@ -144,7 +144,7 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gradient-to-br from-rose-50 to-slate-100 dark:from-slate-950 dark:to-slate-900 py-6 px-4">
       {/* Page Header */}
       <div className="text-center mb-5">
-        <h1 className="text-2xl font-extrabold text-rose-600">
+        <h1 className="text-2xl font-extrabold text-[#ff0000]">
           Join the Lifesaving Community
         </h1>
         <p className="text-slate-500 dark:text-slate-400 mt-0.5 text-xs">
@@ -315,7 +315,7 @@ export default function RegisterPage() {
                   onClick={() => setSelectedBloodGroup(bg)}
                   className={`px-3 py-1 rounded-lg border text-sm font-semibold transition-all ${
                     selectedBloodGroup === bg
-                      ? "bg-rose-600 text-white border-rose-600 shadow-md scale-105"
+                      ? "bg-[#ff0000] text-white border-rose-600 shadow-md scale-105"
                       : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-rose-400"
                   }`}
                 >
@@ -371,7 +371,7 @@ export default function RegisterPage() {
 
           {/* Submit Error */}
           {submitError && (
-            <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-rose-600 dark:text-rose-400 text-sm rounded-lg px-4 py-2.5">
+            <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-[#ff0000] dark:text-rose-400 text-sm rounded-lg px-4 py-2.5">
               {submitError}
             </div>
           )}
@@ -380,7 +380,7 @@ export default function RegisterPage() {
           <Button
             type="submit"
             isLoading={isLoading}
-            className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold h-10 text-sm rounded-lg transition shadow-md mt-2"
+            className="w-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold h-10 text-sm rounded-lg transition shadow-md mt-2"
           >
             {!isLoading && "Complete Registration"}
           </Button>
@@ -388,7 +388,7 @@ export default function RegisterPage() {
           {/* Login Link */}
           <p className="text-center text-xs text-slate-500 mt-3">
             Already have an account?{" "}
-            <Link href="/login" className="text-rose-600 font-bold hover:underline">
+            <Link href="/login" className="text-[#ff0000] font-bold hover:underline">
               Login here
             </Link>
           </p>

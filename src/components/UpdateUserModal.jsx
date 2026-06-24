@@ -47,7 +47,7 @@ export function UpdateUserModal() {
       setLoading(true);
       let finalImageUrl = previewUrl;
 
-      // ইমেজ আপলোড লজিক (ImgBB)
+      // (ImgBB)
       if (imageFile) {
         const formData = new FormData();
         formData.append("image", imageFile);
@@ -61,7 +61,7 @@ export function UpdateUserModal() {
         if (data.success) {
           finalImageUrl = data.data.url;
         } else {
-          throw new Error("ইমেজ আপলোড ব্যর্থ হয়েছে।");
+          throw new Error("Failed to upload image");
         }
       }
       
@@ -77,11 +77,11 @@ export function UpdateUserModal() {
 
       if (error) throw new Error(error.message);
       
-      toast.success("প্রোফাইল আপডেট সফল হয়েছে!");
+      toast.success("Profile updated successfully!");
       setIsOpen(false);
       window.location.reload(); 
     } catch (err) {
-      toast.error(err.message || "আপডেট ব্যর্থ হয়েছে");
+      toast.error(err.message || "Update failed");
     } finally {
       setLoading(false);
     }
@@ -89,7 +89,7 @@ export function UpdateUserModal() {
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)} className="bg-rose-600 text-white px-4 py-2 rounded-xl text-sm font-bold">
+      <button onClick={() => setIsOpen(true)} className="bg-[#ff0000] text-white px-4 py-2 rounded-xl text-sm font-bold">
         Edit Profile
       </button>
       
@@ -128,7 +128,7 @@ export function UpdateUserModal() {
               {BLOOD_GROUPS.map(bg => <option key={bg} value={bg}>{bg}</option>)}
             </select>
 
-            <button onClick={handleUpdate} disabled={loading} className="w-full bg-rose-600 text-white py-2 rounded-lg font-bold hover:bg-rose-700">
+            <button onClick={handleUpdate} disabled={loading} className="w-full bg-[#ff0000] text-white py-2 rounded-lg font-bold hover:bg-[#cc0000]">
               {loading ? "Saving..." : "Save Changes"}
             </button>
           </div>

@@ -198,7 +198,7 @@ export default function CreateRequestPage() {
           <Button
             type="submit"
             isLoading={isPending}
-            className="w-full bg-rose-600 hover:bg-rose-700 text-white font-bold h-12 rounded-xl shadow-md transition-colors duration-200"
+            className="w-full bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold h-12 rounded-xl shadow-md transition-colors duration-200"
           >
             {isPending ? "Creating Request..." : "Post Blood Request"}
           </Button>

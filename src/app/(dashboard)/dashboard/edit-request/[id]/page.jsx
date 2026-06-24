@@ -96,7 +96,7 @@ const EditBloodRequest = () => {
         transition={{ duration: 0.5 }}
       >
         <Card className="p-6 shadow-lg border border-slate-100 dark:border-slate-800">
-          <h2 className="text-2xl font-black text-rose-600 mb-6">Edit Blood Request</h2>
+          <h2 className="text-2xl font-black text-[#ff0000] mb-6">Edit Blood Request</h2>
           
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -194,7 +194,7 @@ const EditBloodRequest = () => {
             <Button
               type="submit"
               isLoading={updating}
-              className="w-full h-[46px] bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl transition-all shadow-md shadow-rose-500/20"
+              className="w-full h-[46px] bg-[#ff0000] hover:bg-[#cc0000] text-white font-bold rounded-xl transition-all shadow-md shadow-rose-500/20"
             >
               Update Request Details
             </Button>

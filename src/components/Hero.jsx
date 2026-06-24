@@ -19,7 +19,7 @@ const Hero = () => {
             className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-800 dark:text-slate-100 leading-tight"
           >
             Smarter Connection <br /> 
-            To Save A <span className="text-rose-600 relative inline-block">
+            To Save A <span className="text-[#ff0000] relative inline-block">
               Precious Life
               <span className="absolute bottom-1 left-0 w-full h-2 bg-rose-100 dark:bg-rose-950/50 -z-10 rounded"></span>
             </span> Here!
@@ -43,15 +43,15 @@ const Hero = () => {
           >
             {/* Button 1: Join as a donor */}
             <Link href="/register">
-              <button className="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-rose-200 dark:shadow-none transition-all duration-300 transform hover:-translate-y-1">
+              <button className="w-full sm:w-auto bg-[#ff0000] hover:bg-[#cc0000] text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-rose-200 dark:shadow-none transition-all duration-300 transform hover:-translate-y-1">
                 Join as a donor <i className="fa-solid fa-user-plus ml-2"></i>
               </button>
             </Link>
             
             {/* Button 2: Search Donors */}
             <Link href="/search">
-              <button className="w-full sm:w-auto border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-rose-50 dark:hover:bg-slate-800 px-8 py-4 rounded-full font-bold transition-all duration-300">
-                Search Donors <i className="fa-solid fa-magnifying-glass ml-2 text-rose-600"></i>
+              <button className="w-full sm:w-auto border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-rose-50 dark:hover:bg-slate-800 px-8 py-4 rounded-full font-bold transition-all duration-300 cursor-pointer flex items-center justify-center gap-2">
+                Search Donors <i className="fa-solid fa-magnifying-glass ml-2 text-[#ff0000]"></i>
               </button>
             </Link>
           </motion.div>
@@ -92,7 +92,7 @@ const Hero = () => {
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               className="absolute -bottom-5 -left-5 bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-xl dark:shadow-black/40 flex items-center gap-3 border border-slate-50 dark:border-slate-700 select-none"
             >
-              <div className="bg-rose-100 dark:bg-rose-950/60 p-2 rounded-xl text-rose-600">
+              <div className="bg-rose-100 dark:bg-rose-950/60 p-2 rounded-xl text-[#ff0000]">
                 <i className="fa-solid fa-droplet text-xl animate-pulse"></i>
               </div>
               <div className="text-left">

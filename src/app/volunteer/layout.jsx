@@ -9,7 +9,7 @@ export default function VolunteerLayout({ children }) {
         <div>
           {/* Logo */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="text-rose-600 text-2xl font-black tracking-wider">BloodSync</div>
+            <div className="text-[#ff0000] text-2xl font-black tracking-wider">BloodSync</div>
           </div>
 
           {/* Main Navigation Menu */}
@@ -18,7 +18,7 @@ export default function VolunteerLayout({ children }) {
               <p className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Main Menu</p>
               <ul className="space-y-1">
                 <li>
-                  <Link href="/volunteer/dashboard" className="flex items-center gap-3 px-3 py-2 text-sm font-bold bg-rose-50 dark:bg-rose-950/30 text-rose-600 rounded-xl">
+                  <Link href="/volunteer/dashboard" className="flex items-center gap-3 px-3 py-2 text-sm font-bold bg-rose-50 dark:bg-rose-950/30 text-[#ff0000] rounded-xl">
                     <span>📊</span> Dashboard
                   </Link>
                 </li>
@@ -57,7 +57,7 @@ export default function VolunteerLayout({ children }) {
               <p className="text-[11px] text-slate-400">volunteer@bloodsync.com</p>
             </div>
           </div>
-          <button className="w-full text-left flex items-center gap-3 px-3 py-2 text-sm font-bold text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl transition">
+          <button className="w-full text-left flex items-center gap-3 px-3 py-2 text-sm font-bold text-[#ff0000] hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl transition">
             <span>🚪</span> Logout
           </button>
         </div>

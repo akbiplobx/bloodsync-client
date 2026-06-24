@@ -39,7 +39,7 @@ export default function MyDonationsPage() {
       return 'bg-emerald-50 text-emerald-600 border border-emerald-200/60';
     }
     if (lowerStatus === 'rejected') {
-      return 'bg-rose-50 text-rose-600 border border-rose-200/60';
+      return 'bg-rose-50 text-[#ff0000] border border-rose-200/60';
     }
     return 'bg-amber-50 text-amber-600 border border-amber-200/60';
   };
@@ -57,11 +57,11 @@ export default function MyDonationsPage() {
       
       {/* Header section content layout */}
       <div>
-        <div className="flex items-center gap-2 text-xs font-bold text-rose-600 bg-rose-500/10 px-3 py-1 rounded-full w-max mb-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-[#ff0000] bg-rose-500/10 px-3 py-1 rounded-full w-max mb-2">
           <FileText size={14} /> My Dashboard
         </div>
         <h1 className="text-3xl font-black tracking-tight">
-          My Blood <span className="text-rose-600">Donation Requests</span>
+          My Blood <span className="text-[#ff0000]">Donation Requests</span>
         </h1>
         <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
           Track the screening and approval status of all your submitted blood donation applications.
@@ -83,7 +83,7 @@ export default function MyDonationsPage() {
           <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">Accepted</p>
         </div>
         <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-xs text-center space-y-1">
-          <p className="text-2xl md:text-3xl font-black text-rose-600">{rejectedCount}</p>
+          <p className="text-2xl md:text-3xl font-black text-[#ff0000]">{rejectedCount}</p>
           <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">Rejected</p>
         </div>
       </div>
@@ -117,7 +117,7 @@ export default function MyDonationsPage() {
 
                   return (
                     <tr key={req._id || req.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                      <td className="p-4 md:p-5 font-bold text-rose-600 dark:text-rose-500">
+                      <td className="p-4 md:p-5 font-bold text-[#ff0000] dark:text-rose-500">
                         {req.bloodGroup || "O+"}
                       </td>
                       <td className="p-4 md:p-5 text-slate-800 dark:text-slate-200 max-w-[220px] truncate">
