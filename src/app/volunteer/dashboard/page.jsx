@@ -82,7 +82,7 @@ export default async function VolunteerDashboard() {
                   <td className="py-4 px-6 text-slate-400 font-mono text-xs">{req.id}</td>
                   <td className="py-4 px-6 font-bold text-slate-800 dark:text-slate-200">{req.patientName}</td>
                   <td className="py-4 px-6 text-center">
-                    <span className="inline-block bg-rose-50 text-[#ff0000] dark:bg-rose-950/40 dark:text-rose-400 font-black text-xs px-2.5 py-1 rounded-md">
+                    <span className="inline-block bg-rose-50 text-[#ff0000] dark:bg-rose-950/40 dark:text-[#ff0000] font-black text-xs px-2.5 py-1 rounded-md">
                       {req.bloodType}
                     </span>
                   </td>

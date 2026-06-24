@@ -92,7 +92,7 @@ export default async function AdminDashboard() {
                       className={`inline-flex items-center gap-1.5 text-[10px] font-black px-2.5 py-1 rounded-full ${
                         user.status === "ACTIVE"
                           ? "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400"
-                          : "bg-rose-50 text-[#ff0000] dark:bg-rose-950/30 dark:text-rose-400"
+                          : "bg-rose-50 text-[#ff0000] dark:bg-rose-950/30 dark:text-[#ff0000]"
                       }`}
                     >
                       <span className={`w-1.5 h-1.5 rounded-full ${user.status === "ACTIVE" ? "bg-emerald-500" : "bg-rose-500"}`} />

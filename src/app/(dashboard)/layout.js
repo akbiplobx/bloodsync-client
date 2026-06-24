@@ -13,9 +13,9 @@ export default function DashboardLayout({ children }) {
         
         <div className="text-2xl font-black text-center border-b border-slate-800 pb-4 flex flex-col items-center gap-1">
           <div className="flex items-center gap-1.5 tracking-tighter">
-            Blood<span className="text-rose-500">Sync</span>
+            Donor<span className="text-[#ff0000]">Profile</span>
           </div>
-          <span className="block text-xs font-semibold text-rose-400 bg-rose-950/40 px-2.5 py-0.5 rounded-full mt-1">
+          <span className="block text-xs font-semibold text-[#ff0000] bg-rose-950/40 px-2.5 py-0.5 rounded-full mt-1">
             User Dashboard
           </span>
         </div>
@@ -26,21 +26,21 @@ export default function DashboardLayout({ children }) {
             href="/dashboard/profile" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
           >
-            <FaUser className="text-rose-500 text-lg" /> My Profile
+            <FaUser className="text-[#ff0000] text-lg" /> My Profile
           </Link>
 
           <Link 
             href="/dashboard/create-request" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
           >
-            <FaPlusCircle className="text-rose-500 text-lg" /> Create Request 
+            <FaPlusCircle className="text-[#ff0000] text-lg" /> Create Request 
           </Link>
           
           <Link 
             href="/dashboard/my-requests" 
             className="flex items-center gap-3 p-3 rounded-xl transition-all duration-200 hover:bg-slate-800 hover:text-white"
           >
-            <FaListAlt className="text-rose-500 text-lg" /> My Requests
+            <FaListAlt className="text-[#ff0000] text-lg" /> My Requests
           </Link>
           
                   

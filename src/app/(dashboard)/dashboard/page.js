@@ -7,7 +7,7 @@ export default function DashboardHome() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-rose-500 to-red-600 rounded-2xl p-6 md:p-8 text-white shadow-md">
+      <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-2xl p-6 md:p-8 text-white shadow-md">
         <div className="flex items-center gap-3 mb-2">
           <FaHeartbeat className="text-3xl animate-pulse" />
           <h1 className="text-2xl md:text-3xl font-black tracking-tight">
@@ -28,7 +28,7 @@ export default function DashboardHome() {
           className="group p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[160px]"
         >
           <div>
-            <div className="w-12 h-12 rounded-xl bg-rose-50 dark:bg-rose-950/30 flex items-center justify-center text-rose-500 text-xl font-bold mb-4 group-hover:scale-110 transition-transform duration-200">
+            <div className="w-12 h-12 rounded-xl bg-rose-50 dark:bg-rose-950/30 flex items-center justify-center text-[#ff0000] text-xl font-bold mb-4 group-hover:scale-110 transition-transform duration-200">
               <FaPlusCircle />
             </div>
             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1">
@@ -38,7 +38,7 @@ export default function DashboardHome() {
               Post a new request for blood in case of an emergency or upcoming medical need.
             </p>
           </div>
-          <span className="text-xs font-semibold text-rose-500 mt-4 block group-hover:translate-x-1 transition-transform">
+          <span className="text-xs font-semibold text-[#ff0000] mt-4 block group-hover:translate-x-1 transition-transform">
             Create Request &rarr;
           </span>
         </Link>

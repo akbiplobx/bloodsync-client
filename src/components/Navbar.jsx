@@ -102,7 +102,7 @@ const Navbar = () => {
                     <div className="px-4 py-2 border-b border-slate-50 dark:border-slate-700">
                       <p className="text-xs text-slate-400 font-medium">Logged in as</p>
                       <p className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">{session.user.email}</p>
-                      <span className="inline-block text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-[#ff0000] dark:text-rose-400 px-1.5 py-0.5 mt-1 rounded">
+                      <span className="inline-block text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-[#ff0000] dark:text-[#ff0000] px-1.5 py-0.5 mt-1 rounded">
                         {session.user?.role || "donor"}
                       </span>
                     </div>

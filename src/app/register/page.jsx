@@ -191,7 +191,7 @@ export default function RegisterPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Full Name <span className="text-rose-500">*</span>
+                Full Name <span className="text-[#ff0000]">*</span>
               </label>
               <input
                 name="name"
@@ -199,12 +199,12 @@ export default function RegisterPage() {
                 placeholder="Enter your full name"
                 className="w-full h-9 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
               />
-              {errors.name && <p className="text-xs text-rose-500 mt-1">{errors.name}</p>}
+              {errors.name && <p className="text-xs text-[#ff0000] mt-1">{errors.name}</p>}
             </div>
 
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Email Address <span className="text-rose-500">*</span>
+                Email Address <span className="text-[#ff0000]">*</span>
               </label>
               <input
                 name="email"
@@ -212,7 +212,7 @@ export default function RegisterPage() {
                 placeholder="name@example.com"
                 className="w-full h-9 px-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
               />
-              {errors.email && <p className="text-xs text-rose-500 mt-1">{errors.email}</p>}
+              {errors.email && <p className="text-xs text-[#ff0000] mt-1">{errors.email}</p>}
             </div>
           </div>
 
@@ -220,7 +220,7 @@ export default function RegisterPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Phone Number <span className="text-rose-500">*</span>
+                Phone Number <span className="text-[#ff0000]">*</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">📞</span>
@@ -231,7 +231,7 @@ export default function RegisterPage() {
                   className="w-full h-9 pl-9 pr-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-rose-400 transition"
                 />
               </div>
-              {errors.phone && <p className="text-xs text-rose-500 mt-1">{errors.phone}</p>}
+              {errors.phone && <p className="text-xs text-[#ff0000] mt-1">{errors.phone}</p>}
             </div>
 
             <div>
@@ -255,7 +255,7 @@ export default function RegisterPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                District <span className="text-rose-500">*</span>
+                District <span className="text-[#ff0000]">*</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">📍</span>
@@ -275,12 +275,12 @@ export default function RegisterPage() {
                   ))}
                 </select>
               </div>
-              {errors.district && <p className="text-xs text-rose-500 mt-1">{errors.district}</p>}
+              {errors.district && <p className="text-xs text-[#ff0000] mt-1">{errors.district}</p>}
             </div>
 
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Upazila <span className="text-rose-500">*</span>
+                Upazila <span className="text-[#ff0000]">*</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🏘️</span>
@@ -298,14 +298,14 @@ export default function RegisterPage() {
                   ))}
                 </select>
               </div>
-              {errors.upazila && <p className="text-xs text-rose-500 mt-1">{errors.upazila}</p>}
+              {errors.upazila && <p className="text-xs text-[#ff0000] mt-1">{errors.upazila}</p>}
             </div>
           </div>
 
           {/* Blood Group */}
           <div>
             <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
-              Blood Group <span className="text-rose-500">*</span>
+              Blood Group <span className="text-[#ff0000]">*</span>
             </label>
             <div className="flex flex-wrap gap-2">
               {BLOOD_GROUPS.map((bg) => (
@@ -324,7 +324,7 @@ export default function RegisterPage() {
               ))}
             </div>
             {errors.bloodGroup && (
-              <p className="text-xs text-rose-500 mt-1">{errors.bloodGroup}</p>
+              <p className="text-xs text-[#ff0000] mt-1">{errors.bloodGroup}</p>
             )}
           </div>
 
@@ -332,7 +332,7 @@ export default function RegisterPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Password <span className="text-rose-500">*</span>
+                Password <span className="text-[#ff0000]">*</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔒</span>
@@ -347,12 +347,12 @@ export default function RegisterPage() {
               <p className="text-[10px] text-slate-400 mt-0.5">
                 8+ chars, 1 uppercase & 1 number
               </p>
-              {errors.password && <p className="text-xs text-rose-500">{errors.password}</p>}
+              {errors.password && <p className="text-xs text-[#ff0000]">{errors.password}</p>}
             </div>
 
             <div>
               <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                Confirm Password <span className="text-rose-500">*</span>
+                Confirm Password <span className="text-[#ff0000]">*</span>
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">🔁</span>
@@ -364,14 +364,14 @@ export default function RegisterPage() {
                 />
               </div>
               {errors.confirmPassword && (
-                <p className="text-xs text-rose-500 mt-1">{errors.confirmPassword}</p>
+                <p className="text-xs text-[#ff0000] mt-1">{errors.confirmPassword}</p>
               )}
             </div>
           </div>
 
           {/* Submit Error */}
           {submitError && (
-            <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-[#ff0000] dark:text-rose-400 text-sm rounded-lg px-4 py-2.5">
+            <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 text-[#ff0000] dark:text-[#ff0000] text-sm rounded-lg px-4 py-2.5">
               {submitError}
             </div>
           )}

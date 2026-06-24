@@ -9,7 +9,7 @@ export default function AdminLayout({ children }) {
         <div>
           {/* Logo */}
           <div className="flex items-center gap-2 mb-8">
-            <div className="text-[#ff0000] text-2xl font-black tracking-wider">BloodSync</div>
+            <div className="text-[#ff0000] text-2xl font-black tracking-wider">Admin Profile</div>
           </div>
 
           {/* Main Navigation Menu */}

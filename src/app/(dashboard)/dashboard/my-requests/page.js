@@ -117,7 +117,7 @@ export default function MyDonationsPage() {
 
                   return (
                     <tr key={req._id || req.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
-                      <td className="p-4 md:p-5 font-bold text-[#ff0000] dark:text-rose-500">
+                      <td className="p-4 md:p-5 font-bold text-[#ff0000] dark:text-[#ff0000]">
                         {req.bloodGroup || "O+"}
                       </td>
                       <td className="p-4 md:p-5 text-slate-800 dark:text-slate-200 max-w-[220px] truncate">

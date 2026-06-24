@@ -45,7 +45,7 @@ const RequestModal = ({ isOpen, onClose, requestData, onApprove, onReject }) => 
             <p className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1">Status</p>
             <span className={`inline-block px-3 py-1 text-xs font-black uppercase tracking-wider rounded-full mt-0.5 ${
               currentStatus === 'approved' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-400' :
-              currentStatus === 'rejected' ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-rose-400' :
+              currentStatus === 'rejected' ? 'bg-rose-100 text-rose-700 dark:bg-rose-500/10 dark:text-[#ff0000]' :
               'bg-amber-100 text-amber-700 dark:bg-amber-500/10 dark:text-amber-400'
             }`}>
               {currentStatus}
@@ -57,7 +57,7 @@ const RequestModal = ({ isOpen, onClose, requestData, onApprove, onReject }) => 
         <div className="flex justify-end space-x-3 pt-4 border-t border-slate-100 dark:border-slate-800">
           {showActionButtons ? (
             <>
-              <button onClick={onReject} className="px-4 py-2 text-sm font-bold text-[#ff0000] bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-rose-400 dark:hover:bg-rose-500/20 rounded-xl transition-colors">
+              <button onClick={onReject} className="px-4 py-2 text-sm font-bold text-[#ff0000] bg-rose-50 hover:bg-rose-100 dark:bg-rose-500/10 dark:text-[#ff0000] dark:hover:bg-rose-500/20 rounded-xl transition-colors">
                 Reject
               </button>
               <button onClick={onApprove} className="px-4 py-2 text-sm font-bold text-white text-red-600 hover:bg-blue-700 rounded-xl transition-colors shadow-md">

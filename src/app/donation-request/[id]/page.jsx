@@ -273,7 +273,7 @@ export default function BloodRequestDetails() {
                     type="text" 
                     value={`${request.bloodGroup} (${request.bagsCount || 1} Bags Required)`}
                     readOnly 
-                    className="w-full bg-slate-50 dark:bg-slate-800/60 text-[#ff0000] dark:text-rose-400 font-bold p-3 rounded-xl border border-slate-200/60 dark:border-slate-700/50 outline-none text-sm cursor-not-allowed"
+                    className="w-full bg-slate-50 dark:bg-slate-800/60 text-[#ff0000] dark:text-[#ff0000] font-bold p-3 rounded-xl border border-slate-200/60 dark:border-slate-700/50 outline-none text-sm cursor-not-allowed"
                   />
                 </div>
 
