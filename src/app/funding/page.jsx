@@ -56,9 +56,11 @@ export default function FundingHistoryPage() {
                   />
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button className="w-full bg-red-600 text-white" slot="close">
+                  <form action="/api/subscription" method="POST">
+                    <Button type="submit" className="w-full bg-red-600 text-white" slot="close">
                     Confirm & Pay
                   </Button>
+                  </form>
                 </Modal.Footer>
               </Modal.Dialog>
             </Modal.Container>
