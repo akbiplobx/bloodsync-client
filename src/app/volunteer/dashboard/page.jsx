@@ -2,7 +2,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { useState } from 'react';
+
 
 // Mock data for blood donation requests managed by the volunteer
 const donationRequestsMock = [
@@ -13,21 +13,6 @@ const donationRequestsMock = [
 ];
 
 // ==============
-const [total, setTotal] = useState(0);
-
-useEffect(() => {
-  fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/total-funding`, {
-    headers: { authorization: `Bearer ${localStorage.getItem('token')}` }
-  })
-  .then(res => res.json())
-  .then(data => setTotal(data.total));
-}, []);
-
-// UI তে দেখানোর জন্য
-<div className="bg-red-50 p-6 rounded-lg border border-red-200">
-  <h3 className="text-xl font-semibold text-red-700">Total Funding</h3>
-  <p className="text-4xl font-bold mt-2">${total}</p>
-</div>
 // =================
 
 
