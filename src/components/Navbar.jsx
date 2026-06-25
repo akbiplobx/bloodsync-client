@@ -57,9 +57,7 @@ const Navbar = () => {
           <li>
             <Link href="/donation-requests" className="hover:text-[#ff0000] transition">Donation Requests</Link>
           </li>
-          <li>
-            <Link href="/search" className="hover:text-[#ff0000] transition">Search Donors</Link>
-          </li>
+          
 
           {/* Funding Link - Only show after logged in */}
           {session && (

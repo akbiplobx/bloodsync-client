@@ -29,6 +29,7 @@ export const config = {
   '/dashboard/:path*',
   // '/donation-requests/:path*',
   '/donation-details/:path*',
-  '/search/:path*'
+  '/search/:path*',
+  '/donor/:path*',
 ]
 }
