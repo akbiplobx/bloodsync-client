@@ -5,7 +5,6 @@ import {
   Spinner, 
   Button, 
   Chip, 
-  Pagination, 
   Modal, 
   Input 
 } from "@heroui/react";
@@ -13,9 +12,6 @@ import {
 export default function FundingHistoryPage() {
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-  
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/donations`)
@@ -23,12 +19,14 @@ export default function FundingHistoryPage() {
       .then((data) => {
         setDonations(Array.isArray(data) ? data : []);
         setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error loading donations:", err);
+        setLoading(false);
       });
   }, []);
 
   const totalAmount = donations.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
-  const totalPages = Math.ceil(donations.length / itemsPerPage);
-  const currentItems = donations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   if (loading) return <div className="flex justify-center py-20"><Spinner color="danger" /></div>;
 
@@ -38,7 +36,7 @@ export default function FundingHistoryPage() {
         <h1 className="text-xl md:text-2xl font-bold text-gray-800">Funding History</h1>
         <h2 className="text-lg md:text-2xl font-bold text-green-600">Total: ${totalAmount.toFixed(2)}</h2>
 
-        {/* Modal implementation fixed */}
+        {/* Modal implementation */}
         <Modal>
           <Button className="bg-red-600 text-white hover:bg-red-700">Give Fund</Button>
           <Modal.Backdrop>
@@ -59,8 +57,8 @@ export default function FundingHistoryPage() {
                 <Modal.Footer>
                   <form action="/api/subscription" method="POST">
                     <Button type="submit" className="w-full bg-red-600 text-white" slot="close">
-                    Confirm & Pay
-                  </Button>
+                      Confirm & Pay
+                    </Button>
                   </form>
                 </Modal.Footer>
               </Modal.Dialog>
@@ -71,13 +69,25 @@ export default function FundingHistoryPage() {
 
       <div className="overflow-x-auto shadow-sm rounded-xl border border-gray-200 bg-white">
         <table className="w-full text-left border-collapse min-w-[600px] md:min-w-full">
+          <thead>
+            <tr className="bg-gray-50 text-gray-500 text-xs font-bold uppercase border-b border-gray-100">
+              <th className="p-4">Funder Name</th>
+              <th className="p-4">Transaction ID</th>
+              <th className="p-4">Funding Date</th>
+              <th className="p-4">Amount</th>
+              <th className="p-4">Status</th>
+              <th className="p-4">Action</th>
+            </tr>
+          </thead>
           <tbody>
-            {currentItems.length > 0 ? (
-              currentItems.map((item) => (
+            {donations.length > 0 ? (
+              donations.map((item) => (
                 <tr key={item._id} className="hover:bg-gray-50 transition-colors">
-                  <td className="p-4 border-b">{item.funderName}</td>
+                  <td className="p-4 border-b font-medium text-gray-800">{item.funderName || "Anonymous"}</td>
                   <td className="p-4 border-b text-gray-600">{item.transactionId || "N/A"}</td>
-                  <td className="p-4 border-b text-gray-600">{new Date(item.fundingDate).toLocaleDateString()}</td>
+                  <td className="p-4 border-b text-gray-600">
+                    {item.fundingDate ? new Date(item.fundingDate).toLocaleDateString() : "N/A"}
+                  </td>
                   <td className="p-4 border-b font-bold text-green-600">+${item.amount}</td>
                   <td className="p-4 border-b"><Chip color="success" size="sm" variant="flat">SUCCESS</Chip></td>
                   <td className="p-4 border-b"><Button size="sm" variant="light" isIconOnly>💰</Button></td>
@@ -89,19 +99,6 @@ export default function FundingHistoryPage() {
           </tbody>
         </table>
       </div>
-
-      {totalPages > 1 && (
-        <div className="flex justify-center mt-8">
-          <Pagination
-            total={totalPages}
-            page={currentPage}
-            onChange={setCurrentPage} 
-            color="danger"
-            variant="flat"
-            size="md"
-          />
-        </div>
-      )}
     </div>
   );
 }

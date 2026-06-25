@@ -1,47 +1,52 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { Eye, FileText } from 'lucide-react';
+import { authClient } from '@/lib/auth-client';
 
 export default function MyDonationsPage() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  
-  // Current logged in user email for identification tracking
-  const userEmail = "akbiplob24@gmail.com"; 
 
   useEffect(() => {
-    // Fetch blood application or donation requests linked with the logged-in email
-    fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/my-requests?email=${userEmail}`)
-      .then((res) => {
+    const fetchDonations = async () => {
+      try {
+        // ১. Better-Auth থেকে লগইন থাকা ইউজারের ইমেইল নেওয়া
+        const session = await authClient.getSession();
+        const currentUser = session?.data?.user;
+        const userEmail = currentUser?.email || "akbiplob24@gmail.com"; // ব্যাকআপ ইমেইল
+
+        // ২. আমাদের তৈরি করা নতুন টোকেন-লেস এপিআইতে হিট করা
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/my-donations?email=${userEmail}`);
         if (!res.ok) throw new Error("Failed to load requests");
-        return res.json();
-      })
-      .then((data) => {
+        
+        const data = await res.json();
         setRequests(Array.isArray(data) ? data : []);
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error loading blood requests:", err);
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    fetchDonations();
   }, []);
 
-  // Compute live analytics from state tracking variables
+  // স্ট্যাটাস কাউন্টার ট্র্যাকিং (ইন-প্রোগ্রেস সহ)
   const totalRequests = requests.length;
   const pendingCount = requests.filter(r => r.status?.toLowerCase() === 'pending').length;
+  const inProgressCount = requests.filter(r => r.status?.toLowerCase() === 'inprogress').length;
   const approvedCount = requests.filter(r => r.status?.toLowerCase() === 'approved' || r.status?.toLowerCase() === 'accepted').length;
-  const rejectedCount = requests.filter(r => r.status?.toLowerCase() === 'rejected').length;
 
-  // Render contextual status badges with responsive styling attributes
+  // স্ট্যাটাস অনুযায়ী ব্যাজ ডিজাইন
   const getStatusBadge = (status = 'Pending') => {
     const lowerStatus = status.toLowerCase();
     if (lowerStatus === 'approved' || lowerStatus === 'accepted') {
       return 'bg-emerald-50 text-emerald-600 border border-emerald-200/60';
     }
-    if (lowerStatus === 'rejected') {
-      return 'bg-rose-50 text-[#ff0000] border border-rose-200/60';
+    if (lowerStatus === 'inprogress') {
+      return 'bg-amber-50 text-amber-600 border border-amber-200/60';
     }
-    return 'bg-amber-50 text-amber-600 border border-amber-200/60';
+    return 'bg-blue-50 text-blue-600 border border-blue-200/60';
   };
 
   if (loading) {
@@ -55,40 +60,36 @@ export default function MyDonationsPage() {
   return (
     <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-8 text-slate-900 dark:text-white">
       
-      {/* Header section content layout */}
+      {/* Header */}
       <div>
         <div className="flex items-center gap-2 text-xs font-bold text-[#ff0000] bg-rose-500/10 px-3 py-1 rounded-full w-max mb-2">
           <FileText size={14} /> My Dashboard
         </div>
         <h1 className="text-3xl font-black tracking-tight">
-          My Blood <span className="text-[#ff0000]">Donation Requests</span>
+          My Blood <span className="text-[#ff0000]">Donations</span>
         </h1>
         <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
           Track the screening and approval status of all your submitted blood donation applications.
         </p>
       </div>
 
-      {/* Numerical counter showcase grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      {/* Analytics Counter */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-xs text-center space-y-1">
           <p className="text-2xl md:text-3xl font-black">{totalRequests}</p>
-          <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">Total Applications</p>
+          <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">Total Donations</p>
         </div>
         <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-xs text-center space-y-1">
-          <p className="text-2xl md:text-3xl font-black text-amber-500">{pendingCount}</p>
-          <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">Pending</p>
+          <p className="text-2xl md:text-3xl font-black text-amber-500">{inProgressCount}</p>
+          <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">In Progress</p>
         </div>
         <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-xs text-center space-y-1">
           <p className="text-2xl md:text-3xl font-black text-emerald-500">{approvedCount}</p>
           <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">Accepted</p>
         </div>
-        <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/80 shadow-xs text-center space-y-1">
-          <p className="text-2xl md:text-3xl font-black text-[#ff0000]">{rejectedCount}</p>
-          <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400">Rejected</p>
-        </div>
       </div>
 
-      {/* Main data management table display structure */}
+      {/* Data Table */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800/80 overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse min-w-[700px]">
@@ -112,29 +113,29 @@ export default function MyDonationsPage() {
               ) : (
                 requests.map((req) => {
                   const currentStatus = req.status || 'Pending';
+                  const isInProgress = currentStatus.toLowerCase() === 'inprogress';
                   const isApproved = currentStatus.toLowerCase() === 'approved' || currentStatus.toLowerCase() === 'accepted';
-                  const isRejected = currentStatus.toLowerCase() === 'rejected';
 
                   return (
-                    <tr key={req._id || req.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <tr key={req._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                       <td className="p-4 md:p-5 font-bold text-[#ff0000] dark:text-[#ff0000]">
-                        {req.bloodGroup || "O+"}
+                        {req.bloodGroup}
                       </td>
                       <td className="p-4 md:p-5 text-slate-800 dark:text-slate-200 max-w-[220px] truncate">
-                        {req.hospitalName || "General Hospital"}
+                        {req.hospitalName}
                       </td>
                       <td className="p-4 md:p-5 text-slate-500 dark:text-slate-400">
-                        {req.bagsDonated || req.bagsCount || "1"} Bag
+                        {req.bagsCount || "1"} Bag
                       </td>
                       <td className="p-4 md:p-5 text-slate-500 dark:text-slate-400 text-xs md:text-sm">
-                        {req.donationDate || req.requestDate || "Immediate"}
+                        {req.donationDate}
                       </td>
                       <td className="p-4 md:p-5">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider ${getStatusBadge(currentStatus)}`}>
                           <span className={`w-1.5 h-1.5 rounded-full ${
-                            isApproved ? 'bg-emerald-500' : isRejected ? 'bg-rose-500' : 'bg-amber-500'
+                            isApproved ? 'bg-emerald-500' : isInProgress ? 'bg-amber-500' : 'bg-blue-500'
                           }`} />
-                          {isApproved ? 'Accepted' : currentStatus}
+                          {currentStatus}
                         </span>
                       </td>
                       <td className="p-4 md:p-5 text-right">
