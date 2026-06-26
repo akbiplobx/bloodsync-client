@@ -63,7 +63,13 @@ export default function DonationPage() {
       
       if (result.success) {
         toast.success("Donation confirmed! Status is now In Progress. 🎉");
-        router.push('/dashboard/my-donations'); 
+       
+        if (currentUser?.role === 'volunteer') {
+    router.push('/volunteer/my-requests'); 
+  } else {
+    router.push('/dashboard/my-donations');
+  }
+
       } else {
         toast.error(result.message || "Something went wrong.");
       }

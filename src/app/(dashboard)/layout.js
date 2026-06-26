@@ -1,7 +1,9 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { authClient } from '@/lib/auth-client';
 import { 
   FaPlusCircle, 
   FaListAlt, 
@@ -15,17 +17,34 @@ import {
 
 export default function DashboardLayout({ children }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [loggingOut, setLoggingOut] = useState(false);
 
   // 🕵️‍♂️ ইউআরএল দেখে অটোমেটিক রোল ডিটেক্ট করা হচ্ছে
   const isAdmin = pathname.includes("/admin");
   const isVolunteer = pathname.includes("/volunteer");
 
-  // একটি হেল্পার ফাংশন যা একটিভ লিংকগুলোকে সুন্দরভাবে হাইলাইট করবে
+  // একটি হেল্পার ফাংশน যা একটিভ লিংকগুলোকে সুন্দরভাবে হাইলাইট করবে
   const getLinkClass = (path) => {
     const baseClass = "flex items-center gap-3 p-3 rounded-xl transition-all duration-200";
     return pathname === path
       ? `${baseClass} bg-slate-800 text-white font-bold`
       : `${baseClass} hover:bg-slate-800 hover:text-white`;
+  };
+
+  // 🚪 লগআউট হ্যান্ডলার ফাংশন
+  const handleLogout = async () => {
+    try {
+      setLoggingOut(true);
+      await authClient.signOut();
+      toast.success("Logged out successfully! 👋");
+      router.push("/"); // লগআউট শেষে হোম পেজে রিডাইরেক্ট
+    } catch (error) {
+      console.error(error);
+      toast.error("Logout failed, please try again.");
+    } finally {
+      setLoggingOut(false);
+    }
   };
 
   return (
@@ -35,7 +54,7 @@ export default function DashboardLayout({ children }) {
       <div className="w-full md:w-64 bg-slate-900 text-slate-100 p-5 space-y-6 flex flex-col justify-between">
         <div>
           
-          {/* 🔄 ডাইনামিক হেডার (Admin, Volunteer, নাকি Donor সে অনুযায়ী চেঞ্জ হবে) */}
+          {/* 🔄 ডাইনামিক হেডার (Admin, Volunteer, নাকি Donor সে অনুযায়ী চেঞ্জ হবে) */}
           <div className="text-2xl font-black text-center border-b border-slate-800 pb-4 flex flex-col items-center gap-1">
             {isAdmin ? (
               <>
@@ -73,25 +92,28 @@ export default function DashboardLayout({ children }) {
             {/* ========================================================
                  👑 ১. এডমিন মেনু (ইউআরএল-এ admin থাকলে এই লিংকগুলো দেখাবে)
                  ======================================================== */}
-            {isAdmin && (
-              <>
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 px-3 mb-1">Main Menu</p>
-                <Link href="/admin/dashboard" className={getLinkClass("/admin/dashboard")}>
-                  <FaListAlt className="text-[#ff0000] text-lg" /> Dashboard
-                </Link>
-                <Link href="/admin/profile" className={getLinkClass("/admin/profile")}>
-                  <FaUser className="text-[#ff0000] text-lg" /> My Profile
-                </Link>
+          
+{isAdmin && (
+  <>
+    <p className="text-xs font-bold uppercase tracking-wider text-slate-500 px-3 mb-1">Main Menu</p>
+    <Link href="/admin/dashboard" className={getLinkClass("/admin/dashboard")}>
+      <FaListAlt className="text-[#ff0000] text-lg" /> Dashboard
+    </Link>
+    <Link href="/admin/profile" className={getLinkClass("/admin/profile")}>
+      <FaUser className="text-[#ff0000] text-lg" /> My Profile
+    </Link>
 
-                <p className="text-xs font-bold uppercase tracking-wider text-slate-500 px-3 mt-4 mb-1">Management</p>
-                <Link href="/admin/dashboard" className={getLinkClass("/admin/dashboard")}> {/* যদি আলাদা অল ইউজার পেজ থাকে তবে পাথ চেঞ্জ করতে পারেন */}
-                  <FaUsers className="text-[#ff0000] text-lg" /> All Users
-                </Link>
-                <Link href="/admin/requests" className={getLinkClass("/admin/requests")}>
-                  <FaClipboardList className="text-[#ff0000] text-lg" /> Public Requests
-                </Link>
-              </>
-            )}
+    <p className="text-xs font-bold uppercase tracking-wider text-slate-500 px-3 mt-4 mb-1">Management</p>
+    
+    {/* 👥 এখানে পাথ এবং নাম ঠিক করা হলো */}
+    <Link href="/admin/all-users" className={getLinkClass("/admin/all-users")}>
+      <FaUsers className="text-[#ff0000] text-lg" /> User Management
+    </Link>
+    <Link href="/admin/requests" className={getLinkClass("/admin/requests")}>
+      <FaClipboardList className="text-[#ff0000] text-lg" /> Public Requests
+    </Link>
+  </>
+)}
 
             {/* ========================================================
                  🙋‍♂️ ২. ভলেন্টিয়ার মেনু (ইউআরএল-এ volunteer থাকলে এই লিংকগুলো দেখাবে)
@@ -122,6 +144,10 @@ export default function DashboardLayout({ children }) {
             {!isAdmin && !isVolunteer && (
               <>
                 <p className="text-xs font-bold uppercase tracking-wider text-slate-500 px-3 mb-1">Main Menu</p>
+                {/* 🌟 যোগ করা হলো: ডোনর ড্যাশবোর্ড বাটন */}
+                <Link href="/dashboard" className={getLinkClass("/dashboard")}>
+                  <FaListAlt className="text-[#ff0000] text-lg" /> Dashboard
+                </Link>
                 <Link href="/dashboard/profile" className={getLinkClass("/dashboard/profile")}>
                   <FaUser className="text-[#ff0000] text-lg" /> My Profile
                 </Link>
@@ -129,8 +155,8 @@ export default function DashboardLayout({ children }) {
                   <FaPlusCircle className="text-[#ff0000] text-lg" /> Create Request 
                 </Link>
                 <Link href="/dashboard/my-donations" className={getLinkClass("/dashboard/my-donations")}>
-                  <FaListAlt className="text-[#ff0000] text-lg" /> My Donations
-                </Link>
+      <FaListAlt className="text-[#ff0000] text-lg" /> My Donations
+    </Link>
               </>
             )}
             
@@ -146,14 +172,17 @@ export default function DashboardLayout({ children }) {
           </nav>
         </div>
 
-        {/* এডমিন ও ভলেন্টিয়ারদের জন্য নিচে এক্সট্রা লগআউট বাটন */}
-        {(isAdmin || isVolunteer) && (
-          <div className="pt-4 border-t border-slate-800">
-            <button className="w-full flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:bg-red-950/40 hover:text-red-500 transition-all duration-200 text-sm font-medium">
-              <FaSignOutAlt className="text-lg" /> Logout
-            </button>
-          </div>
-        )}
+        {/* 🚪 গ্লোবাল লগআউট বাটন (ডোনর, এডমিন, ভলেন্টিয়ার সবার জন্য নিচে থাকবে) */}
+        <div className="pt-4 border-t border-slate-800">
+          <button 
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="w-full flex items-center gap-3 p-3 rounded-xl text-slate-400 hover:bg-red-950/40 hover:text-red-500 transition-all duration-200 text-sm font-medium disabled:opacity-50"
+          >
+            <FaSignOutAlt className="text-lg" /> 
+            {loggingOut ? "Logging out..." : "Logout"}
+          </button>
+        </div>
       </div>
 
       {/* 🟢 ডান পাশের মূল কনটেন্ট এরিয়া */}
