@@ -109,8 +109,8 @@ export default function DashboardLayout({ children }) {
     <Link href="/admin/all-users" className={getLinkClass("/admin/all-users")}>
       <FaUsers className="text-[#ff0000] text-lg" /> User Management
     </Link>
-    <Link href="/admin/requests" className={getLinkClass("/admin/requests")}>
-      <FaClipboardList className="text-[#ff0000] text-lg" /> Public Requests
+    <Link href="/admin/all-blood-donation-request" className={getLinkClass("/admin/all-blood-donation-request")}>
+      <FaClipboardList className="text-[#ff0000] text-lg" /> All Blood Donation Requests
     </Link>
   </>
 )}
@@ -132,8 +132,8 @@ export default function DashboardLayout({ children }) {
                 <Link href="/volunteer/create-request" className={getLinkClass("/volunteer/create-request")}>
                   <FaPlusCircle className="text-[#ff0000] text-lg" /> Create Request 
                 </Link>
-                <Link href="/volunteer/my-requests" className={getLinkClass("/volunteer/my-requests")}>
-                  <FaFileMedical className="text-[#ff0000] text-lg" /> My Requests
+                <Link href="/volunteer/all-blood-donation-request" className={getLinkClass("/volunteer/all-blood-donation-request")}>
+                  <FaFileMedical className="text-[#ff0000] text-lg" /> all-blood-donation-request
                 </Link>
               </>
             )}

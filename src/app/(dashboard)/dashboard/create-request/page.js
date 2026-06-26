@@ -66,7 +66,7 @@ export default function CreateRequestPage() {
         
         // Redirect user to My Requests list view on success
         setTimeout(() => {
-          router.push("/dashboard/my-requests");
+          router.push("/donation-requests");
         }, 2000);
         
       } else {

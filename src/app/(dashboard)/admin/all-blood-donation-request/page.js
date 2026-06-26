@@ -15,7 +15,7 @@ export default async function VolunteerAllBloodRequestsPage({ searchParams }) {
     redirect("/login");
   }
 
-  if (session.user?.role !== "volunteer") {
+  if (session.user?.role !== "admin") {
     redirect("/dashboard");
   }
 
