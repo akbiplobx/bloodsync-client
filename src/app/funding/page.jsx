@@ -12,6 +12,8 @@ import {
 export default function FundingHistoryPage() {
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [amount, setAmount] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/donations`)
@@ -27,6 +29,38 @@ export default function FundingHistoryPage() {
   }, []);
 
   const totalAmount = donations.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
+
+  // 💳 পেমেন্ট হ্যান্ডলার ফাংশন (যা ব্যাকএন্ডের Stripe সেশন তৈরি করবে)
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    if (!amount || parseFloat(amount) <= 0) return alert("Please enter a valid amount!");
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/create-checkout-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: parseFloat(amount),
+          funderName: "Biplob", // আপনার ডাইনামিক ইউজারের নাম এখানে দিতে পারেন
+        }),
+      });
+
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url; // Stripe পেমেন্ট পেজে রিডাইরেক্ট করবে
+      } else {
+        alert("Failed to create checkout session");
+        setIsSubmitting(false);
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Something went wrong!");
+      setIsSubmitting(false);
+    }
+  };
 
   if (loading) return <div className="flex justify-center py-20"><Spinner color="danger" /></div>;
 
@@ -46,21 +80,29 @@ export default function FundingHistoryPage() {
                 <Modal.Header>
                   <Modal.Heading>Make a Contribution</Modal.Heading>
                 </Modal.Header>
-                <Modal.Body>
-                  <p className="mb-4 text-gray-600">Enter the amount you wish to donate:</p>
-                  <Input 
-                    type="number" 
-                    placeholder="0.00" 
-                    startContent={<span className="text-default-400">$</span>}
-                  />
-                </Modal.Body>
-                <Modal.Footer>
-                  <form action="/api/subscription" method="POST">
-                    <Button type="submit" className="w-full bg-red-600 text-white" slot="close">
-                      Confirm & Pay
+                <form onSubmit={handlePayment}>
+                  <Modal.Body>
+                    <p className="mb-4 text-gray-600">Enter the amount you wish to donate:</p>
+                    <Input 
+  type="number" 
+  placeholder="0.00" 
+  value={amount}
+  onChange={(e) => setAmount(e.target.value)}
+  required
+
+  label="Amount ($)"
+/>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-red-600 text-white"
+                      isLoading={isSubmitting}
+                    >
+                      {isSubmitting ? "Processing..." : "Confirm & Pay"}
                     </Button>
-                  </form>
-                </Modal.Footer>
+                  </Modal.Footer>
+                </form>
               </Modal.Dialog>
             </Modal.Container>
           </Modal.Backdrop>
