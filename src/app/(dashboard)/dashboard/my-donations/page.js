@@ -6,16 +6,16 @@ import { authClient } from '@/lib/auth-client';
 export default function MyDonationsPage() {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   useEffect(() => {
     const fetchDonations = async () => {
       try {
-        // ১. Better-Auth থেকে লগইন থাকা ইউজারের ইমেইল নেওয়া
         const session = await authClient.getSession();
         const currentUser = session?.data?.user;
-        const userEmail = currentUser?.email || "akbiplob24@gmail.com"; // ব্যাকআপ ইমেইল
+        const userEmail = currentUser?.email || "akbiplob24@gmail.com";
 
-        // ২. আমাদের তৈরি করা নতুন টোকেন-লেস এপিআইতে হিট করা
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/my-donations?email=${userEmail}`);
         if (!res.ok) throw new Error("Failed to load requests");
         
@@ -31,13 +31,15 @@ export default function MyDonationsPage() {
     fetchDonations();
   }, []);
 
-  // স্ট্যাটাস কাউন্টার ট্র্যাকিং (ইন-প্রোগ্রেস সহ)
   const totalRequests = requests.length;
   const pendingCount = requests.filter(r => r.status?.toLowerCase() === 'pending').length;
   const inProgressCount = requests.filter(r => r.status?.toLowerCase() === 'inprogress').length;
   const approvedCount = requests.filter(r => r.status?.toLowerCase() === 'approved' || r.status?.toLowerCase() === 'accepted').length;
 
-  // স্ট্যাটাস অনুযায়ী ব্যাজ ডিজাইন
+  // Pagination
+  const totalPages = Math.ceil(requests.length / ITEMS_PER_PAGE);
+  const paginatedRequests = requests.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+
   const getStatusBadge = (status = 'Pending') => {
     const lowerStatus = status.toLowerCase();
     if (lowerStatus === 'approved' || lowerStatus === 'accepted') {
@@ -96,7 +98,7 @@ export default function MyDonationsPage() {
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase border-b border-slate-100 dark:border-slate-800">
                 <th className="p-4 md:p-5">Target Blood Group</th>
-                <th className="p-4 md:p-5">Recipient Name</th> 
+                <th className="p-4 md:p-5">Recipient Name</th>
                 <th className="p-4 md:p-5">Hospital Name</th>
                 <th className="p-4 md:p-5">Bags Committed</th>
                 <th className="p-4 md:p-5">Donation Date</th>
@@ -105,14 +107,14 @@ export default function MyDonationsPage() {
               </tr>
             </thead>
             <tbody className="text-sm text-slate-700 dark:text-slate-300 font-medium divide-y divide-slate-100 dark:divide-slate-800/60">
-              {requests.length === 0 ? (
+              {paginatedRequests.length === 0 ? (
                 <tr>
                   <td colSpan="7" className="p-8 text-center text-slate-400 font-medium">
                     You haven't submitted any blood donation applications yet.
                   </td>
                 </tr>
               ) : (
-                requests.map((req) => {
+                paginatedRequests.map((req) => {
                   const currentStatus = req.status || 'Pending';
                   const isInProgress = currentStatus.toLowerCase() === 'inprogress';
                   const isApproved = currentStatus.toLowerCase() === 'approved' || currentStatus.toLowerCase() === 'accepted';
@@ -122,9 +124,8 @@ export default function MyDonationsPage() {
                       <td className="p-4 md:p-5 font-bold text-[#ff0000] dark:text-[#ff0000]">
                         {req.bloodGroup}
                       </td>
-                      {/* ফিক্সড: এখানে req.recipientName এর বদলে req.patientName এবং ফলব্যাক ব্যবহার করা হয়েছে */}
                       <td className="p-4 md:p-5 text-slate-800 dark:text-slate-200 max-w-[180px] truncate font-semibold">
-                        {req.patientName || req.recipientName || "N/A"} 
+                        {req.patientName || req.recipientName || "N/A"}
                       </td>
                       <td className="p-4 md:p-5 text-slate-800 dark:text-slate-200 max-w-[220px] truncate">
                         {req.hospitalName}
@@ -155,6 +156,41 @@ export default function MyDonationsPage() {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-1 p-4 border-t border-slate-100 dark:border-slate-800/60">
+            <button
+              onClick={() => setPage((p) => p - 1)}
+              disabled={page === 1}
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+            >
+              ← Previous
+            </button>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+              <button
+                key={p}
+                onClick={() => setPage(p)}
+                className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-colors ${
+                  p === page
+                    ? "bg-red-500 border-red-500 text-white"
+                    : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-slate-800"
+                }`}
+              >
+                {p}
+              </button>
+            ))}
+
+            <button
+              onClick={() => setPage((p) => p + 1)}
+              disabled={page === totalPages}
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-zinc-400 hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-40 disabled:pointer-events-none transition-colors"
+            >
+              Next →
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

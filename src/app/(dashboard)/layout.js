@@ -110,7 +110,7 @@ export default function DashboardLayout({ children }) {
       <FaUsers className="text-[#ff0000] text-lg" /> User Management
     </Link>
     <Link href="/admin/all-blood-donation-request" className={getLinkClass("/admin/all-blood-donation-request")}>
-      <FaClipboardList className="text-[#ff0000] text-lg" /> All Blood Donation Requests
+      <FaClipboardList className="text-[#ff0000] text-lg" /> Blood Request
     </Link>
   </>
 )}
@@ -133,7 +133,7 @@ export default function DashboardLayout({ children }) {
                   <FaPlusCircle className="text-[#ff0000] text-lg" /> Create Request 
                 </Link>
                 <Link href="/volunteer/all-blood-donation-request" className={getLinkClass("/volunteer/all-blood-donation-request")}>
-                  <FaFileMedical className="text-[#ff0000] text-lg" /> all-blood-donation-request
+                  <FaFileMedical className="text-[#ff0000] text-lg" /> Blood Request
                 </Link>
               </>
             )}
