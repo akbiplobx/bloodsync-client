@@ -96,6 +96,7 @@ export default function MyDonationsPage() {
             <thead>
               <tr className="bg-slate-50 dark:bg-slate-800/40 text-slate-500 dark:text-slate-400 text-xs font-bold uppercase border-b border-slate-100 dark:border-slate-800">
                 <th className="p-4 md:p-5">Target Blood Group</th>
+                <th className="p-4 md:p-5">Recipient Name</th> 
                 <th className="p-4 md:p-5">Hospital Name</th>
                 <th className="p-4 md:p-5">Bags Committed</th>
                 <th className="p-4 md:p-5">Donation Date</th>
@@ -106,7 +107,7 @@ export default function MyDonationsPage() {
             <tbody className="text-sm text-slate-700 dark:text-slate-300 font-medium divide-y divide-slate-100 dark:divide-slate-800/60">
               {requests.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="p-8 text-center text-slate-400 font-medium">
+                  <td colSpan="7" className="p-8 text-center text-slate-400 font-medium">
                     You haven't submitted any blood donation applications yet.
                   </td>
                 </tr>
@@ -120,6 +121,10 @@ export default function MyDonationsPage() {
                     <tr key={req._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
                       <td className="p-4 md:p-5 font-bold text-[#ff0000] dark:text-[#ff0000]">
                         {req.bloodGroup}
+                      </td>
+                      {/* ফিক্সড: এখানে req.recipientName এর বদলে req.patientName এবং ফলব্যাক ব্যবহার করা হয়েছে */}
+                      <td className="p-4 md:p-5 text-slate-800 dark:text-slate-200 max-w-[180px] truncate font-semibold">
+                        {req.patientName || req.recipientName || "N/A"} 
                       </td>
                       <td className="p-4 md:p-5 text-slate-800 dark:text-slate-200 max-w-[220px] truncate">
                         {req.hospitalName}
@@ -140,7 +145,7 @@ export default function MyDonationsPage() {
                       </td>
                       <td className="p-4 md:p-5 text-right">
                         <button className="inline-flex items-center gap-1.5 py-1.5 px-3 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-bold bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-slate-700 dark:text-slate-200 cursor-pointer">
-                          <Eye size={13} /> View Post
+                          <Eye size={13} /> View
                         </button>
                       </td>
                     </tr>

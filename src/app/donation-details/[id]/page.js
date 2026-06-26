@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
 import { authClient } from '@/lib/auth-client';
-import { Calendar, Hospital, Send } from 'lucide-react';
+import { Calendar, Hospital, Send, X } from 'lucide-react';
 import { Spinner } from "@heroui/react"; 
 
 export default function DonationPage() {
@@ -12,6 +12,11 @@ export default function DonationPage() {
   const [request, setRequest] = useState(null);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+  
+  // Modal এর জন্য State
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [donorMessage, setDonorMessage] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,25 +33,34 @@ export default function DonationPage() {
       } finally { setLoading(false); }
     };
     if (id) fetchData();
-  }, [id]);
+  } , [id]);
 
-  const handleDonate = async (e) => {
+  // বাটনে ক্লিক করলে প্রথমে ইউজার চেক হবে এবং Modal ওপেন হবে
+  const handleOpenModal = async (e) => {
     e.preventDefault();
-    setSubmitting(true);
-    const donorMessage = e.target.message.value;
-
+    
     try {
-     
       const session = await authClient.getSession();
-      const currentUser = session?.data?.user;
+      const user = session?.data?.user;
 
-      if (!currentUser?.email) {
+      if (!user?.email) {
         toast.error("Please login first to donate blood!");
-        setSubmitting(false);
         return;
       }
 
-      
+      setCurrentUser(user);
+      setIsOpen(true); // Modal ওপেন করা হচ্ছে
+    } catch (error) {
+      console.error(error);
+      toast.error("Authentication error.");
+    }
+  };
+
+  // Modal এর ভেতর Confirm বাটনে ক্লিক করলে এই ফাংশনটি রান হবে
+  const handleConfirmDonate = async () => {
+    setSubmitting(true);
+
+    try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/public/donate/${id}`, {
         method: 'PUT',
         headers: { 
@@ -63,13 +77,13 @@ export default function DonationPage() {
       
       if (result.success) {
         toast.success("Donation confirmed! Status is now In Progress. 🎉");
-       
+        setIsOpen(false); // Modal বন্ধ করা হলো
+        
         if (currentUser?.role === 'volunteer') {
-    router.push('/volunteer/my-requests'); 
-  } else {
-    router.push('/dashboard/my-donations');
-  }
-
+          router.push('/volunteer/my-requests'); 
+        } else {
+          router.push('/dashboard/my-donations');
+        }
       } else {
         toast.error(result.message || "Something went wrong.");
       }
@@ -85,7 +99,7 @@ export default function DonationPage() {
   if (!request) return <div className="p-10 text-center">No Request Found</div>;
 
   return (
-    <main className="py-6 bg-slate-50 min-h-screen flex items-center justify-center">
+    <main className="py-6 bg-slate-50 min-h-screen flex items-center justify-center relative">
       <div className="container mx-auto px-4 max-w-md">
         <div className="bg-white p-5 rounded-2xl border shadow-sm space-y-4">
           
@@ -129,9 +143,11 @@ export default function DonationPage() {
           )}
           
           {/* Form */}
-          <form onSubmit={handleDonate} className="space-y-2.5 pt-1">
+          <form onSubmit={handleOpenModal} className="space-y-2.5 pt-1">
             <textarea 
               name="message" 
+              value={donorMessage}
+              onChange={(e) => setDonorMessage(e.target.value)}
               placeholder="Write a quick message to recipient..." 
               className="w-full p-2.5 border rounded-xl bg-slate-50 text-xs focus:ring-1 focus:ring-red-400 outline-none resize-none" 
               rows="2"
@@ -139,15 +155,69 @@ export default function DonationPage() {
             
             <button 
               type="submit" 
-              disabled={submitting}
-              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-slate-400 text-white py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2"
+              className="w-full bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2"
             >
-              {submitting ? "Processing..." : <><Send size={14}/> Donate Now</>}
+              <Send size={14}/> Donate Now
             </button>
           </form>
 
         </div>
       </div>
+
+      {/* --- Custom Tailwind Modal --- */}
+      {isOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-sm w-full p-5 shadow-xl border animate-in fade-in zoom-in-95 duration-200">
+            
+            {/* Modal Header */}
+            <div className="flex justify-between items-center border-b pb-2 mb-4">
+              <h3 className="text-sm font-bold text-slate-800">Confirm Your Donation</h3>
+              <button 
+                onClick={() => setIsOpen(false)} 
+                className="text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="space-y-3 text-xs mb-5">
+              <p className="text-slate-500">By confirming, your status will change to <span className="font-bold text-amber-600">In Progress</span>.</p>
+              
+              <div className="bg-slate-50 p-3 rounded-xl border space-y-2 text-slate-700">
+                <div>
+                  <span className="text-[10px] uppercase tracking-wider block text-slate-400 font-bold">Donor Name</span>
+                  <span className="font-semibold">{currentUser?.name || "Anonymous Donor"}</span>
+                </div>
+                <div className="border-t pt-1.5">
+                  <span className="text-[10px] uppercase tracking-wider block text-slate-400 font-bold">Donor Email</span>
+                  <span className="font-semibold text-slate-600">{currentUser?.email}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex gap-2.5">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 rounded-xl text-xs transition-all"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={submitting}
+                onClick={handleConfirmDonate}
+                className="flex-1 bg-red-600 hover:bg-red-700 disabled:bg-slate-400 text-white font-bold py-2 rounded-xl text-xs transition-all flex items-center justify-center gap-1"
+              >
+                {submitting ? "Processing..." : "Confirm"}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </main>
   );
 }
