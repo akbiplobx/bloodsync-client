@@ -1,4 +1,3 @@
-// src/app/admin/dashboard/page.jsx
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -34,7 +33,7 @@ export default async function AdminDashboard() {
         </p>
       </div>
 
-      {/* ড্যাশবোর্ডের খালি জায়গায় সুন্দর একটি গ্রিড বা ওভারভিউ মেসেজ */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
         <div className="p-6 bg-slate-50 rounded-xl border border-slate-100">
           <h3 className="font-bold text-slate-700 text-lg mb-1">Quick Insights</h3>

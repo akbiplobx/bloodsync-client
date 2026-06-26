@@ -1,28 +1,35 @@
 "use client";
 import React from "react";
 import Link from "next/link";
-import { FaPlusCircle, FaListAlt, FaHistory, FaHeartbeat } from "react-icons/fa";
+import { authClient } from '@/lib/auth-client'; 
+import { FaPlusCircle, FaListAlt, FaHeartbeat, FaUser } from "react-icons/fa";
 
 export default function DashboardHome() {
+  
+  const { data: session, isPending } = authClient.useSession();
+  
+ 
+  const donorName = session?.user?.name || "Donor";
+
   return (
     <div className="space-y-8">
-      {/* Welcome Banner */}
+      {/* 🔴 Welcome Banner  */}
       <div className="bg-gradient-to-r from-red-500 to-red-600 rounded-2xl p-6 md:p-8 text-white shadow-md">
         <div className="flex items-center gap-3 mb-2">
           <FaHeartbeat className="text-3xl animate-pulse" />
           <h1 className="text-2xl md:text-3xl font-black tracking-tight">
-            Welcome to BloodSync!
+            Welcome to BloodSync, {isPending ? "Donor" : donorName}! 🎉
           </h1>
         </div>
         <p className="text-rose-100 max-w-xl text-sm md:text-base font-medium">
-          Your decision can save a life. Use the options below to create urgent blood requests, manage your posts, or view your contribution history.
+          Your decision can save a life. Use the options below to create urgent blood requests, manage your posts, or update your donor profile.
         </p>
       </div>
 
-      {/* Quick Action Cards */}
+      {/* 📊 Quick Action Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        {/* Card 1: Request Blood */}
+        {/* Card 1: Create Request */}
         <Link 
           href="/dashboard/create-request"
           className="group p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[160px]"
@@ -43,7 +50,7 @@ export default function DashboardHome() {
           </span>
         </Link>
 
-        {/* Card 2: My Requests */}
+        {/* Card 2: My Donations */}
         <Link 
           href="/dashboard/my-donations"
           className="group p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[160px]"
@@ -64,7 +71,26 @@ export default function DashboardHome() {
           </span>
         </Link>
 
-
+        
+        <Link 
+          href="/dashboard/profile"
+          className="group p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700/50 hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[160px]"
+        >
+          <div>
+            <div className="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/30 flex items-center justify-center text-blue-500 text-xl font-bold mb-4 group-hover:scale-110 transition-transform duration-200">
+              <FaUser />
+            </div>
+            <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-1">
+              My Profile
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Keep your contact details, blood group, and availability status updated for emergencies.
+            </p>
+          </div>
+          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-4 block group-hover:translate-x-1 transition-transform">
+            Manage Profile &rarr;
+          </span>
+        </Link>
 
       </div>
     </div>

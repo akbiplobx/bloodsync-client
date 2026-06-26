@@ -1,4 +1,3 @@
-// src/app/admin/all-users/page.jsx
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -48,13 +47,13 @@ export default async function AllUsersPage() {
 
   return (
     <div className="w-full p-4">
-      {/* 👥 User Management Title (ব্যানার ছাড়া ক্লিন লুক) */}
+      
       <div className="mb-8">
         <h1 className="text-3xl font-black text-slate-800 dark:text-slate-100">User Management</h1>
         <p className="text-sm text-slate-500 mt-1">Oversee community roles, statuses, and permissions.</p>
       </div>
 
-      {/* 📊 ইউজার ম্যানেজমেন্ট টেবিল */}
+      
       <UserTable initialUsers={liveUsers} />
     </div>
   );
