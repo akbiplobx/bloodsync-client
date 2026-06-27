@@ -1,22 +1,20 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; 
 import Link from 'next/link';
 import { Spinner } from "@heroui/react"; 
 import { motion } from "framer-motion"; 
 
 const containerVariants = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.15 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.95 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 70, damping: 14 } }
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 80 } }
 };
 
-export default function FeaturedDonors() {
-  const router = useRouter();
+export default function AllDonors() {
   const [donors, setDonors] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,33 +26,30 @@ export default function FeaturedDonors() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Error loading donors:", err);
+        console.error("Error loading all donors:", err);
         setLoading(false);
       });
   }, []);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <Spinner label="Finding heroes..." color="danger" size="lg" />
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner label="Loading all heroes..." color="danger" size="lg" />
       </div>
     );
   }
 
-  
-  const featuredDonors = donors.slice(0, 3);
-
   return (
-    <section className="py-15 bg-red-100 dark:bg-slate-950 rounded-3xl">
+    <section className="py-20 bg-slate-50 dark:bg-slate-950 min-h-screen">
       <div className="container mx-auto px-4 max-w-7xl">
         
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white">
-            Our <span className="text-red-600">Blood Heroes</span>
-          </h2>
+          <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white">
+            All <span className="text-red-600">Blood Donors</span>
+          </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-4 text-lg">
-            Be the reason for someone's heartbeat. Meet our active donors.
+            Total {donors.length} heroes found ready to save lives.
           </p>
         </div>
 
@@ -62,11 +57,10 @@ export default function FeaturedDonors() {
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
+          animate="show"
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {featuredDonors.map((donor) => (
+          {donors.map((donor) => (
             <motion.div 
               key={donor._id}
               variants={cardVariants}
@@ -101,17 +95,6 @@ export default function FeaturedDonors() {
             </motion.div>
           ))}
         </motion.div>
-
-        
-        {donors.length > 3 && (
-          <div className="text-center mt-12">
-            <Link href="/donors">
-              <button className="px-8 py-4 bg-transparent border-2 border-red-600 text-red-600 dark:text-white hover:bg-red-600 hover:text-white dark:hover:bg-red-600 font-bold text-lg rounded-2xl transition-all duration-300 shadow-md">
-                View More Heroes
-              </button>
-            </Link>
-          </div>
-        )}
       </div>
     </section>
   );

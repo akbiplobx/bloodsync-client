@@ -77,10 +77,10 @@ export default function DonationPage() {
       
       if (result.success) {
         toast.success("Donation confirmed! Status is now In Progress. 🎉");
-        setIsOpen(false); // Modal বন্ধ করা হলো
+        setIsOpen(false); 
         
         if (currentUser?.role === 'volunteer') {
-          router.push('/volunteer/my-requests'); 
+          router.push('/donation-requests'); 
         } else {
           router.push('/dashboard/my-donations');
         }
