@@ -41,11 +41,11 @@ export function UserTable({ initialUsers }) {
   };
 
   return (
-    <div className="w-full bg-content1 text-foreground border border-default-200/60 dark:border-default-100 rounded-2xl shadow-sm overflow-hidden p-1">
+    <div className="w-full bg-content1  border  rounded-2xl shadow-sm overflow-hidden p-1">
       <div className="overflow-x-auto">
         <table className="w-full border-collapse text-left text-sm">
           <thead>
-            <tr className="border-b border-default-200/60 dark:border-default-100 text-[11px] font-bold text-default-500 uppercase tracking-wider bg-default-100/40 dark:bg-default-100/20">
+            <tr className="border-b  text-[11px] font-bold text-default-500 uppercase tracking-wider ">
               <th className="py-4 px-6 w-16 text-center rounded-tl-xl">#</th>
               <th className="py-4 px-6">User Profile</th>
               <th className="py-4 px-6">Email Address</th>
@@ -54,7 +54,7 @@ export function UserTable({ initialUsers }) {
               <th className="py-4 px-6 text-center w-24 rounded-tr-xl">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-default-100/70 dark:divide-default-50/10 font-medium">
+          <tbody className="divide-y divide-default-100/70  font-medium">
             {users?.map((user, index) => (
               <tr
                 key={user._id}
@@ -72,7 +72,7 @@ export function UserTable({ initialUsers }) {
                       name={user.name ? user.name.toUpperCase() : "U"}
                       className="w-9 h-9 text-xs font-bold rounded-xl bg-gradient-to-br from-danger-400 to-danger-600 text-white shadow-sm"
                     />
-                    <span className="font-semibold text-default-800 dark:text-default-200">
+                    <span className="font-semibold ">
                       {user.name || "Unknown User"}
                     </span>
                   </div>
@@ -88,10 +88,10 @@ export function UserTable({ initialUsers }) {
                   <span
                     className={`inline-flex items-center gap-1 text-[11px] font-bold px-2.5 py-1 rounded-lg tracking-wide border ${
                       user.role?.toUpperCase() === "ADMIN"
-                        ? "bg-purple-50 text-purple-600 dark:bg-purple-950/30 dark:text-purple-400 border-purple-100 dark:border-purple-900/30"
+                        ? "bg-purple-50 text-purple-600   border-purple-100 "
                         : user.role?.toUpperCase() === "VOLUNTEER"
-                        ? "bg-blue-50 text-blue-600 dark:bg-blue-950/30 dark:text-blue-400 border-blue-100 dark:border-blue-900/30"
-                        : "bg-default-50 text-default-600 dark:bg-default-100/40 dark:text-default-400 border-default-200/60 dark:border-default-700/30"
+                        ? "bg-blue-50 text-blue-600  border-blue-100 "
+                        : "bg-default-50   border-default-200/60 "
                     }`}
                   >
                     {user.role?.toUpperCase() === "ADMIN" && <ShieldCheck size={13} />}
@@ -106,8 +106,8 @@ export function UserTable({ initialUsers }) {
                   <span
                     className={`inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-0.5 rounded-full border ${
                       user.status !== "BLOCKED"
-                        ? "bg-emerald-50/60 text-emerald-600 dark:bg-emerald-950/20 dark:text-emerald-400 border-emerald-100 dark:border-emerald-900/20"
-                        : "bg-rose-50/60 text-rose-600 dark:bg-rose-950/20 dark:text-rose-400 border-rose-100 dark:border-rose-900/20"
+                        ? "bg-emerald-50/60   "
+                        : "bg-rose-50/60  "
                     }`}
                   >
                     <span
@@ -124,11 +124,11 @@ export function UserTable({ initialUsers }) {
                   <Dropdown>
                     <Button
                       aria-label="User Actions"
-                      variant="ghost"
+                      variant=""
                       isIconOnly
                       size="sm"
                       isLoading={updatingId === user._id}
-                      className="text-default-400 hover:text-default-700"
+                      className=""
                     >
                       <MoreVertical size={16} />
                     </Button>

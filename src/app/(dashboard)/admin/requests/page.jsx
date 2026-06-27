@@ -10,7 +10,7 @@ export default async function VolunteerAllBloodRequestsPage({ searchParams }) {
     headers: await headers(),
   });
 
-  // ১. সিকিউরিটি ও রোল চেক
+ 
   if (!session) {
     redirect("/login");
   }
@@ -19,18 +19,18 @@ export default async function VolunteerAllBloodRequestsPage({ searchParams }) {
     redirect("/dashboard");
   }
 
-  // URL থেকে ফিল্টারিং প্যারামিটারগুলো নেওয়া (Admin-এর মতো সেম ফাংশনালিটি)
+ 
   const resolvedParams = await searchParams;
   const search = resolvedParams?.search || "";
   const bloodGroup = resolvedParams?.bloodGroup || "All Groups";
 
-  // 🔌 MongoDB কানেকশন ও কোয়েরি বিল্ড করা
+  
   const client = await clientPromise;
   const db = client.db("bloodsync");
 
   let query = {};
 
-  // সার্চ ফিল্টার (Hospital Name বা Location দিয়ে সার্চ)
+  
   if (search) {
     query.$or = [
       { hospitalName: { $regex: search, $options: "i" } },
@@ -38,19 +38,19 @@ export default async function VolunteerAllBloodRequestsPage({ searchParams }) {
     ];
   }
 
-  // ব্লাড গ্রুপ ফিল্টার
+ 
   if (bloodGroup && bloodGroup !== "All Groups") {
     query.bloodGroup = bloodGroup;
   }
 
-  // ডাটা ফেচ করা (কালেকশন: blood-data)
+ 
   const bloodRequests = await db
     .collection("blood-data")
     .find(query)
     .sort({ createdAt: -1 })
     .toArray();
 
-  // 🛠️ Server Action: শুধুমাত্র স্ট্যাটাস আপডেট করার পারমিশন
+  
   async function updateStatus(formData) {
     "use server";
     const requestId = formData.get("requestId");
@@ -71,15 +71,15 @@ export default async function VolunteerAllBloodRequestsPage({ searchParams }) {
     <div className="w-full p-4 md:p-6 space-y-6">
       {/* 📋 Header Title */}
       <div>
-        <h1 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-zinc-100 tracking-tight">
+        <h1 className="text-2xl ">
           All Blood Donation Requests 🩸
         </h1>
-        <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+        <p className="text-sm  mt-1">
           Review, filter, and manage donation statuses to coordinate lifesaving responses.
         </p>
       </div>
 
-      {/* 🔍 ফিল্টারিং সেকশন (Admin-এর মতো সেম ফর্ম ও UI) */}
+     
       <form method="GET" className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white dark:bg-zinc-900 p-4 rounded-xl border border-slate-100 dark:border-zinc-800 shadow-sm">
         <div className="sm:col-span-2">
           <label className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-zinc-500 mb-1 block">
@@ -115,7 +115,7 @@ export default async function VolunteerAllBloodRequestsPage({ searchParams }) {
           </select>
         </div>
 
-        <button type="submit" className="hidden"></button> {/* Enter চাপলে সাবমিট হওয়ার জন্য */}
+        <button type="submit" className="hidden"></button> 
         <div className="sm:col-span-3 flex justify-end gap-2 pt-1">
           <button
             type="submit"
@@ -126,7 +126,7 @@ export default async function VolunteerAllBloodRequestsPage({ searchParams }) {
         </div>
       </form>
 
-      {/* 📊 ব্লাড রিকোয়েস্ট টেবিল বা লিস্ট */}
+     
       <div className="bg-white dark:bg-zinc-900 rounded-2xl border border-slate-100 dark:border-zinc-800 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">

@@ -49,8 +49,8 @@ export default async function AllUsersPage() {
     <div className="w-full p-4">
       
       <div className="mb-8">
-        <h1 className="text-3xl font-black text-slate-800 dark:text-slate-100">User Management</h1>
-        <p className="text-sm text-slate-500 mt-1">Oversee community roles, statuses, and permissions.</p>
+        <h1 className="text-3xl">User Management</h1>
+        <p className="text-sm mt-1">Oversee community roles, statuses, and permissions.</p>
       </div>
 
       
