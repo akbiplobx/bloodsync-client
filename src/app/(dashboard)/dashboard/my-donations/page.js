@@ -68,9 +68,9 @@ export default function MyDonationsPage() {
           <FileText size={14} /> My Dashboard
         </div>
         <h1 className="text-3xl font-black tracking-tight">
-          My Blood <span className="text-[#ff0000]">Donations</span>
+           <span className="text-[#ff0000]"> My Blood Donations</span>
         </h1>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
+        <p className="text-slate-500  text-sm mt-1">
           Track the screening and approval status of all your submitted blood donation applications.
         </p>
       </div>

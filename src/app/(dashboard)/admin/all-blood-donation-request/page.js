@@ -67,10 +67,10 @@ export default async function VolunteerAllBloodRequestsPage({ searchParams }) {
   return (
     <div className="w-full p-4 md:p-6 space-y-6">
       <div>
-        <h1 className="text-2xl md:text-3xl font-black text-slate-800 dark:text-zinc-100 tracking-tight">
+        <h1 className="text-2xl md:text-3xl  ">
           All Blood Donation Requests 🩸
         </h1>
-        <p className="text-sm text-slate-500 dark:text-zinc-400 mt-1">
+        <p className="text-sm  mt-1">
           Review, filter, and manage donation statuses to coordinate lifesaving responses.
         </p>
       </div>

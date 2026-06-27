@@ -86,7 +86,7 @@ export default function CreateRequestPage() {
       <Toaster position="top-center" reverseOrder={false} />
       
       <div className="mb-6">
-        <h1 className="text-2xl font-black text-black dark:text-white">Create a Blood Request</h1>
+        <h1 className="text-2xl font-black text-black ">Create a Blood Request</h1>
         <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
           Fill out the details below to request urgent blood for a patient in need.
         </p>
