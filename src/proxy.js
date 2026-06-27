@@ -31,5 +31,6 @@ export const config = {
   '/donation-details/:path*',
   '/search/:path*',
   '/donor/:path*',
+  '/donors',
 ]
 }
